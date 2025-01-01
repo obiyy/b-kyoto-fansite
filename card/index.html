@@ -20,27 +20,40 @@
   <script src="https://code.jquery.com/mobile/1.0a4.1/jquery.mobile-1.0a4.1.min.js"></script>
   <script src="./card.js"></script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3840312371391662" crossorigin="anonymous"></script>
+  <style>
+    /* ヘッダーメニューのトグル用のスタイル */
+    .menu {
+      display: none;
+      background-color: #f2f2f2;
+      padding: 10px;
+      position: absolute;
+      top: 50px;
+      width: 100%;
+      z-index: 999;
+    }
+  </style>
 </head>
+
 <body>
-  <div data-role="page" data-theme="a">
+  <div data-role="page" data-theme="b">
     <div data-role="header">
       <h1>京都ハンナリーズ自己紹介カードメーカー</h1>
+	  <a href="#" class="ui-btn ui-btn-right" id="toggleMenu" data-position="left" data-icon="bars">Menu</a>
     </div>
+	<div class="menu" id="menu">
+		<ul data-role="listview">
+			<li><a href="../index.html" target="_blank">ホーム</a></li>
+			<li><a href="../game/" target="_blank">ミニゲーム</a></li>
+			<li><a href="#">カード作成</a></li>
+			<li><a href="../#music" target="_blank">ミュージック</a></li>
+	</ul>
+	</div>
     <div data-role="content">
     	入力してダウンロードするだけ京都ハンナリーズの自己紹介カードメーカー<br /><br />
 		製作者は「<a href="https://x.com/obiyy" target="_blank">オビー</a>」です。Xで利用している方見つけたらフォローさせていただきます！<br />
 		フォロバしてもらえたら嬉しいです！<br />
 		背景イラストは「<a href="https://x.com/hrrmiau" target="_blank">miharu</a>さん」よりいただきました！ありがとうございます！<br />
 		※chrome,safariで動作します。<br /><br />
-		<hr>
-		ゲーム作りました。息抜きにどうぞ！
-		<ul>
-			<li><a href="./game1.html" target="_blank">ハンナリーズ神経衰弱</a></li>
-			<li><a href="./game2.html" target="_blank">ハンナリーズスライドパズル</a></li>
-			<li><a href="./game3.html" target="_blank">ニャリンスイーパー</a></li>
-			<li><a href="./game4.html" target="_blank">ハンナリーズタイムアタック</a></li>
-		</ul>
-		<hr>
 		<table style="width:100%; font-family: 'ikafont','paintball';">
 			<tr>
 				<td>名前<br />(15文字)</td>
@@ -134,7 +147,7 @@
 		</div>
 	</div>
     <div data-role="footer">
-      <h4><small><a href="javascript:;" onclick="location.href='https://bcardmaker.netlify.app/'">自己紹介カードメーカー</a></small></h4>
+      <h4><small>&copy; 2025 京都ハンナリーズ好きが作ったサイト. All Rights Reserved.</small></h4>
     </div>
   </div>
 	<div data-role="page" id="popup">
@@ -150,5 +163,13 @@
     			<h4><small>京都ハンナリーズ自己紹介カードメーカー</small></h4>
     		</div>
 	</div>
+	<script>
+		$(document).ready(function() {
+		  // メニューのトグル
+		  $('#toggleMenu').click(function() {
+			$('#menu').toggle();
+		  });
+		});
+	  </script>
 </body>
 </html>

@@ -10,7 +10,9 @@ body {
   line-height: 1.6;
   color: #333;
 }
-
+a {
+  text-decoration: none;
+}
 .container {
   width: 90%;
   max-width: 1200px;
