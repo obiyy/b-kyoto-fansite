@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>スライドパズル</title>
+  <meta content="スライドパズル" name="title">
+  <meta content="スライドパズル" name="description">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:site" content="@obiyy">
+  <meta property="og:title" content="スライドパズル">
+  <meta property="og:type" content="blog">
+  <meta property="og:url" content="https://kyoto-bcardmaker.netlify.app/game2.html">
+  <meta property="og:image" content="https://kyoto-bcardmaker.netlify.app/card/card3.jpg">
+  <meta property="og:description" content="スライドパズル">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3840312371391662" crossorigin="anonymous"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      background-color: #f4f4f9;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    .info {
+      margin-bottom: 20px;
+      font-size: 16px;
+    }
+
+    .puzzle-container {
+      display: grid;
+      grid-template-columns: repeat(4, 100px);
+      gap: 5px;
+    }
+
+    .tile {
+      width: 100px;
+      height: 100px;
+      background-color: #007bff;
+      color: white;
+      font-size: 18px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      cursor: pointer;
+      border-radius: 5px;
+      user-select: none;
+      white-space: pre-wrap; /* Allows new lines */
+    }
+
+    .empty {
+      background-color: transparent;
+      cursor: default;
+    }
+
+    .congratulations {
+      margin-top: 20px;
+      font-size: 20px;
+      font-weight: bold;
+      color: green;
+      visibility: hidden;
+    }
+
+    .difficulty-buttons {
+      margin-bottom: 20px;
+    }
+
+    .difficulty-buttons button {
+      margin: 0 5px;
+      padding: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      border-radius: 5px;
+    }
+    .submit-button {
+      margin-top: 5px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      background-color: #28a745;
+      color: white;
+      border-radius: 5px;
+      visibility: hidden;
+    }
+  </style>
+</head>
+<body>
+    <div><a href="../index.html">TOPへ戻る</a> / <a href="./game2_rank.html">ランキングを見る</a></div>
+    <h1>スライドパズル</h1>
+  <div class="difficulty-buttons">
+    <button onclick="startGame('easy')">初級</button>
+    <button onclick="startGame('medium')">中級</button>
+    <button onclick="startGame('hard')">上級</button>
+  </div>
+  <div class="info" id="info">Time: 0s | Moves: 0</div>
+  <button class="submit-button" id="submitButton" onclick="submitResults()">結果を送信</button>
+  <div class="puzzle-container" id="puzzleContainer"></div>
+  <div class="congratulations" id="congratulations">Congratulations!</div>
+
+  <script>
+    const puzzleContainer = document.getElementById('puzzleContainer');
+    const info = document.getElementById('info');
+    const congratulations = document.getElementById('congratulations');
+    const submitButton = document.getElementById('submitButton');
+
+    let tiles = [];
+    let emptyTileIndex;
+    let moves = 0;
+    let startTime;
+    let timerInterval;
+    let difficulty = 'easy';
+    
+    const tileSets = {
+      easy: ['#0\n小野 龍猛','#3\n水野 幹太','#5\n小西 聖也','#10\nチャールズ・ジャクソン','#11\n岡部 雅大','#13\n前田 悟','#15\n川嶋 勇人','#24\nラシード ファラーズ','#32\nアンジェロ・カロイアロ','#33\nエドワード・モリス','#34\n澁田 怜音','#35\nジョーダン・ヒース','#51\n古川 孝敏','#55\nはんにゃりん','#77\n岡田 侑大'],
+      medium: ['小野 龍猛','水野 幹太','小西 聖也','チャールズ・ジャクソン','岡部 雅大','前田 悟','川嶋 勇人','ラシード ファラーズ','アンジェロ・カロイアロ','エドワード・モリス','澁田 怜音','ジョーダン・ヒース','古川 孝敏','はんにゃりん','岡田 侑大'],
+      hard: ['<span style="font-size:40px;">りゅ</span><span style="font-size:10px;">うも</span>'
+      ,'<span style="font-size:40px;">か</span><span style="font-size:10px;">んた</span>'
+      ,'<span style="font-size:40px;">せ</span><span style="font-size:10px;">いや</span>'
+      ,'<span style="font-size:37px;">じゃ</span><span style="font-size:8px;">くそん</span>'
+      ,'<span style="font-size:40px;">ま</span><span style="font-size:10px;">さひろ</span>'
+      ,'<span style="font-size:40px;">さ</span><span style="font-size:10px;">とる</span>'
+      ,'<span style="font-size:40px;">は</span><span style="font-size:10px;">やと</span>'
+      ,'<span style="font-size:40px;">ら</span><span style="font-size:10px;">っしー</span>'
+      ,'<span style="font-size:40px;">じぇ</span><span style="font-size:10px;">ろ</span>'
+      ,'<span style="font-size:40px;">も</span><span style="font-size:10px;">りす</span>'
+      ,'<span style="font-size:40px;">れ</span><span style="font-size:10px;">おん</span>'
+      ,'<span style="font-size:40px;">ひ</span><span style="font-size:10px;">ーす</span>'
+      ,'<span style="font-size:40px;">ご</span><span style="font-size:10px;">り</span>'
+      ,'<span style="font-size:40px;">にゃ</span><span style="font-size:10px;">りん</span>'
+      ,'<span style="font-size:40px;">ゆ</span><span style="font-size:10px;">うた</span>'],
+    };
+
+    function startGame(level) {
+      difficulty = level;
+      moves = 0;
+      info.textContent = `Time: 0s | Moves: 0`;
+      congratulations.style.visibility = 'hidden';
+      submitButton.style.visibility = 'hidden';
+      startTime = Date.now();
+      initPuzzle();
+      startTimer();
+    }
+
+    function initPuzzle() {
+      puzzleContainer.innerHTML = '';
+      tiles = [...tileSets[difficulty], null];
+      shuffleArray(tiles);
+
+      tiles.forEach((tile, index) => {
+        const tileElement = document.createElement('div');
+        tileElement.className = 'tile';
+        if (tile === null) {
+          tileElement.classList.add('empty');
+          emptyTileIndex = index;
+        } else {
+          tileElement.textContent = tile;
+          tileElement.innerHTML = tile.replace(/\\n/g, '<br>');
+          tileElement.addEventListener('click', () => moveTile(index));
+        }
+        puzzleContainer.appendChild(tileElement);
+      });
+    }
+
+    function moveTile(index) {
+      if (isValidMove(index)) {
+        tiles[emptyTileIndex] = tiles[index];
+        tiles[index] = null;
+        emptyTileIndex = index;
+        moves++;
+        updatePuzzle();
+        updateInfo();
+
+        if (isSolved()) {
+          clearInterval(timerInterval);
+          congratulations.style.visibility = 'visible';
+          submitButton.style.visibility = 'visible';
+        }
+      }
+    }
+
+    function isValidMove(index) {
+      const row = Math.floor(index / 4);
+      const col = index % 4;
+      const emptyRow = Math.floor(emptyTileIndex / 4);
+      const emptyCol = emptyTileIndex % 4;
+
+      return (
+        (row === emptyRow && Math.abs(col - emptyCol) === 1) ||
+        (col === emptyCol && Math.abs(row - emptyRow) === 1)
+      );
+    }
+
+    function updatePuzzle() {
+      puzzleContainer.innerHTML = '';
+      tiles.forEach((tile, index) => {
+        const tileElement = document.createElement('div');
+        tileElement.className = 'tile';
+        if (tile === null) {
+          tileElement.classList.add('empty');
+        } else {
+          tileElement.textContent = tile;
+          tileElement.innerHTML = tile.replace(/\\n/g, '<br>');
+          tileElement.addEventListener('click', () => moveTile(index));
+        }
+        puzzleContainer.appendChild(tileElement);
+      });
+    }
+
+    function updateInfo() {
+      const elapsedTime = ((Date.now() - startTime) / 1000).toFixed(2);
+      info.textContent = `Time: ${elapsedTime}s | Moves: ${moves}`;
+    }
+
+    function startTimer() {
+      timerInterval = setInterval(updateInfo, 100);
+    }
+
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+
+    function isSolved() {
+      const expected = tileSets[difficulty];
+      for (let i = 0; i < expected.length; i++) {
+        if (tiles[i] !== expected[i]) {
+          return false;
+        }
+      }
+      return true;
+    }
+    function submitResults() {
+      const elapsedTime = ((Date.now() - startTime) / 1000).toFixed(2);
+      const data = {
+        name: prompt('登録するニックネームの入力:'),
+        result_time: elapsedTime,
+        move_cnt: moves,
+        category: difficulty
+      };
+
+      fetch('https://ss1.xrea.com/obiyy.s324.xrea.com/api/rank.php?cmd=i&game=pa', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+        .then(response => {
+          if (response.ok) {
+            alert('送信完了しました！');
+          } else {
+            alert('すみません。。送信失敗しちゃいました。TOPページの開発者までご連絡ください。キャプチャもらったら登録します。');
+          }
+        })
+        .catch(() => {
+        });
+    }
+  </script>
+</body>
+</html>

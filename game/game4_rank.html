@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ランキングページ</title>
+    <style>
+        body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        margin: 0;
+        background-color: #f4f4f9;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        caption {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+        #loading {
+            font-size: 1.2em;
+            color: #555;
+            display: none;
+        }
+        .category-buttons {
+            margin-bottom: 20px;
+        }
+        .category-buttons button {
+            margin: 0 5px;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="category-buttons">
+        <a href="./game4.html" >ゲームに戻る</a>
+    </div>
+    <div id="loading">データを読み込んでいます...</div>
+    <table style="display: none;" id="ranking-table">
+        <caption>ランキング（タイムアタック）</caption>
+        <thead>
+            <tr>
+                <th>順位</th>
+                <th>名前</th>
+                <th>クリア時間</th>
+                <th>クリア日時</th>
+            </tr>
+        </thead>
+        <tbody id="ranking-body">
+            <!-- データをここに動的に追加します -->
+        </tbody>
+    </table>
+
+    <script>
+        async function fetchRanking() {
+            const loadingElement = document.getElementById('loading');
+            const tableElement = document.getElementById('ranking-table');
+            const tbody = document.getElementById('ranking-body');
+            const caption = tableElement.querySelector('caption');
+
+            // ローディング表示
+            loadingElement.style.display = 'block';
+            tableElement.style.display = 'none';
+            tbody.innerHTML = ''; // 前のデータをクリア
+
+            try {
+                const response = await fetch(`https://ss1.xrea.com/obiyy.s324.xrea.com/api/rank.php?cmd=s&game=ti`);
+                if (!response.ok) {
+                    console.error('ランキングデータの取得に失敗しました。', response.status);
+                    return;
+                }
+
+                const data = await response.json();
+
+                // 順位を計算して表示
+                data.forEach((item, index) => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${index + 1}</td>
+                        <td>${item.name}</td>
+                        <td>${item.result_time}</td>
+                        <td>${item.create_date}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+
+                // テーブル表示
+                loadingElement.style.display = 'none';
+                tableElement.style.display = 'table';
+            } catch (error) {
+                console.error('エラーが発生しました。', error);
+            } finally {
+                loadingElement.style.display = 'none';
+            }
+        }
+
+        fetchRanking();
+    </script>
+</body>
+</html>

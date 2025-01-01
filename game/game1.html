@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>神経衰弱</title>
+  <meta content="神経衰弱" name="title">
+  <meta content="神経衰弱" name="description">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:site" content="@obiyy">
+  <meta property="og:title" content="神経衰弱">
+  <meta property="og:type" content="blog">
+  <meta property="og:url" content="https://kyoto-bcardmaker.netlify.app/game1.html">
+  <meta property="og:image" content="https://kyoto-bcardmaker.netlify.app/card/card2.jpg">
+  <meta property="og:description" content="神経衰弱">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3840312371391662" crossorigin="anonymous"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      background-color: #f4f4f9;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    .game-board {
+      display: grid;
+      grid-template-columns: repeat(4, 100px);
+      gap: 10px;
+    }
+
+    .card {
+      width: 100px;
+      height: 100px;
+      background-color: gray;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 8px;
+      cursor: pointer;
+      user-select: none;
+      position: relative;
+    }
+
+    .card img {
+      width: 90%;
+      height: 90%;
+      display: none;
+    }
+
+    .flipped img, .matched img {
+      display: block;
+    }
+
+    .flipped, .matched {
+      background-color: white;
+    }
+
+    .matched {
+      cursor: default;
+    }
+
+    .message {
+      margin-top: 10px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .start-button {
+      margin-bottom: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      border-radius: 5px;
+    }
+
+    .start-button:disabled {
+      background-color: #cccccc;
+      cursor: not-allowed;
+    }
+
+    .info {
+      margin-bottom: 20px;
+      font-size: 16px;
+    }
+    .submit-button {
+      margin-top: 5px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      background-color: #28a745;
+      color: white;
+      border-radius: 5px;
+      visibility: hidden;
+    }
+  </style>
+</head>
+<body>
+  <div><a href="../index.html">TOPへ戻る</a> / <a href="./game1_rank.html">ランキングを見る</a></div>
+  <h1>神経衰弱</h1>
+  <button class="start-button" id="startButton">Start Game</button>
+  <div class="info" id="info">Time: 0s | Moves: 0</div>
+  <button class="submit-button" id="submitButton" onclick="submitResults()">結果を送信</button>
+  <div class="game-board" id="gameBoard" style="visibility: hidden;"></div>
+  <div class="message" id="message"></div>
+
+  <script>
+    const images = [
+      "../card/card1.jpg", "../card/card2.jpg", "../card/card3.jpg", "../card/card4.jpg","../card/card5.jpg", "../card/card6.jpg", 
+      "../card/card1.jpg", "../card/card2.jpg", "../card/card3.jpg", "../card/card4.jpg","../card/card5.jpg", "../card/card6.jpg", 
+      "../card/card1.jpg", "../card/card2.jpg", "../card/card1.jpg", "../card/card2.jpg", 
+    ];
+
+    const shuffledImages = images.sort(() => Math.random() - 0.5);
+    const gameBoard = document.getElementById('gameBoard');
+    const message = document.getElementById('message');
+    const startButton = document.getElementById('startButton');
+    const info = document.getElementById('info');
+    const submitButton = document.getElementById('submitButton');
+
+    let flippedCards = [];
+    let matchedCards = 0;
+    let moves = 0;
+    let startTime;
+    let timerInterval;
+    let result;
+
+    startButton.addEventListener('click', startGame);
+
+    function startGame() {
+      startButton.disabled = true;
+      gameBoard.style.visibility = 'visible';
+      submitButton.style.visibility = 'hidden';
+      message.textContent = '';
+      moves = 0;
+      matchedCards = 0;
+      info.textContent = `Time: 0s | Moves: 0`;
+      startTime = Date.now();
+      createCards();
+      startTimer();
+    }
+
+    function createCards() {
+      gameBoard.innerHTML = '';
+      shuffledImages.forEach((image, index) => {
+        const card = document.createElement('div');
+        card.classList.add('card');
+        card.dataset.image = image;
+        card.dataset.index = index;
+
+        const img = document.createElement('img');
+        img.src = image;
+        img.alt = "Memory card";
+
+        card.appendChild(img);
+        card.addEventListener('click', handleCardClick);
+        gameBoard.appendChild(card);
+      });
+    }
+
+    function handleCardClick(e) {
+      const card = e.target.closest('.card');
+      const index = card.dataset.index;
+
+      if (card.classList.contains('flipped') || card.classList.contains('matched')) {
+        return;
+      }
+
+      card.classList.add('flipped');
+      flippedCards.push(card);
+      moves++;
+      updateInfo();
+
+      if (flippedCards.length === 2) {
+        const [firstCard, secondCard] = flippedCards;
+
+        if (firstCard.dataset.image === secondCard.dataset.image) {
+          firstCard.classList.add('matched');
+          secondCard.classList.add('matched');
+          matchedCards += 2;
+          flippedCards = [];
+
+          if (matchedCards === shuffledImages.length) {
+            clearInterval(timerInterval);
+            result = ((Date.now() - startTime) / 1000).toFixed(2);
+            message.textContent = `Congratulations!`;
+            submitButton.style.visibility = 'visible';
+          }
+        } else {
+          setTimeout(() => {
+            firstCard.classList.remove('flipped');
+            secondCard.classList.remove('flipped');
+            flippedCards = [];
+          }, 300);
+        }
+      }
+    }
+
+    function updateInfo() {
+      const elapsedTime = ((Date.now() - startTime) / 1000).toFixed(2);
+      info.textContent = `Time: ${elapsedTime}s | Moves: ${moves}`;
+    }
+
+    function startTimer() {
+      timerInterval = setInterval(updateInfo, 100);
+    }
+    function submitResults() {
+      const data = {
+        name: prompt('登録するニックネームの入力:'),
+        result_time: result,
+        move_cnt: moves
+      };
+
+      fetch('https://ss1.xrea.com/obiyy.s324.xrea.com/api/rank.php?cmd=i&game=sh', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+        .then(response => {
+          if (response.ok) {
+            alert('送信完了しました！');
+          } else {
+            alert('すみません。。送信失敗しちゃいました。TOPページの開発者までご連絡ください。キャプチャもらったら登録します。');
+          }
+        })
+        .catch(() => {
+        });
+    }
+
+  </script>
+</body>
+</html>

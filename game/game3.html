@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ニャリンスイーパー</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    .game-container {
+      display: grid;
+      grid-template-columns: repeat(8, 50px);
+      gap: 5px;
+      justify-content: center;
+      margin: 20px auto;
+    }
+
+    .tile {
+      width: 50px;
+      height: 50px;
+      background: url('../card/card2.jpg') no-repeat center center;
+      background-size: cover;
+      border: 1px solid #ccc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: bold;
+      color: #909090;
+    }
+
+    .tile.revealed {
+      background-color: #e0e0e0;
+      background: none;
+      cursor: default;
+    }
+
+    .tile.mine {
+        width: 50px;
+        height: 50px;
+        background: url('../card/card6.jpg') no-repeat center center;
+        background-size: cover;
+    }
+
+    .info {
+      margin-top: 20px;
+      font-size: 16px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      border-radius: 5px;
+    }
+    .submit-button {
+      margin-top: 5px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      background-color: #28a745;
+      color: white;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div><a href="../index.html">TOPへ戻る</a> / <a href="./game3_rank.html">ランキングを見る</a></div>
+  <h1>ニャリンスイーパー</h1>
+  <div class="info" id="info">Time: 0s</div>
+  <div class="info" id="gameInfo"></div>
+  <button onclick="restartGame()">スタート</button>
+  <button class="submit-button" id="submitButton" onclick="submitResults()" style="display: none;">結果を送信</button>
+  <div class="game-container" id="gameContainer" style="display: none;"></div>
+
+  <script>
+    const rows = 8;
+    const cols = 8;
+    const mineCount = 10;
+    let tiles = [];
+    let gameOver = false;
+    let startTime;
+    let timerInterval;
+    let result;
+    const message = document.getElementById('message');
+    const startButton = document.getElementById('startButton');
+    const submitButton = document.getElementById('submitButton');
+    const info = document.getElementById('info');
+    const container = document.getElementById('gameContainer');
+
+    function updateInfo() {
+      const elapsedTime = ((Date.now() - startTime) / 1000).toFixed(2);
+      info.textContent = `Time: ${elapsedTime}s`;
+    }
+
+    function startTimer() {
+      timerInterval = setInterval(updateInfo, 100);
+    }
+
+    function restartGame() {
+        container.style.display = '';
+        startGame();
+    }
+    function startGame() {
+      gameOver = false;
+      tiles = [];
+      startTime = Date.now();
+      startTimer();
+      document.getElementById('info').textContent = 'Time: 0s';
+      document.getElementById('gameInfo').textContent = '';
+      container.innerHTML = '';
+      container.style.pointerEvents = 'auto';
+      submitButton.style.display = 'none';
+    
+      // Initialize tiles
+      for (let i = 0; i < rows * cols; i++) {
+        const tile = document.createElement('div');
+        tile.className = 'tile';
+        tile.dataset.index = i;
+        tile.addEventListener('click', () => revealTile(i));
+        tiles.push({ element: tile, hasMine: false, revealed: false });
+        container.appendChild(tile);
+      }
+
+      // Place mines
+      let minesPlaced = 0;
+      while (minesPlaced < mineCount) {
+        const index = Math.floor(Math.random() * tiles.length);
+        if (!tiles[index].hasMine) {
+          tiles[index].hasMine = true;
+          minesPlaced++;
+        }
+      }
+    }
+
+    function revealTile(index) {
+      if (gameOver || tiles[index].revealed) return;
+
+      const tile = tiles[index];
+      tile.revealed = true;
+      tile.element.classList.add('revealed');
+
+      if (tile.hasMine) {
+        tile.element.classList.add('mine');
+        endGame(false);
+      } else {
+        const adjacentMines = countAdjacentMines(index);
+        if (adjacentMines > 0) {
+          tile.element.textContent = adjacentMines;
+        } else {
+          revealAdjacentTiles(index);
+        }
+
+        if (checkWin()) {
+          endGame(true);
+        }
+      }
+    }
+
+    function countAdjacentMines(index) {
+      const { row, col } = getRowCol(index);
+      let count = 0;
+
+      for (let r = row - 1; r <= row + 1; r++) {
+        for (let c = col - 1; c <= col + 1; c++) {
+          if (r >= 0 && r < rows && c >= 0 && c < cols) {
+            const neighborIndex = r * cols + c;
+            if (tiles[neighborIndex].hasMine) count++;
+          }
+        }
+      }
+      return count;
+    }
+
+    function revealAdjacentTiles(index) {
+      const { row, col } = getRowCol(index);
+
+      for (let r = row - 1; r <= row + 1; r++) {
+        for (let c = col - 1; c <= col + 1; c++) {
+          if (r >= 0 && r < rows && c >= 0 && c < cols) {
+            const neighborIndex = r * cols + c;
+            revealTile(neighborIndex);
+          }
+        }
+      }
+    }
+
+    function getRowCol(index) {
+      return { row: Math.floor(index / cols), col: index % cols };
+    }
+
+    function endGame(won) {
+      gameOver = true;
+      clearInterval(timerInterval);
+      result = ((Date.now() - startTime) / 1000).toFixed(2);
+      document.getElementById('gameContainer').style.pointerEvents = 'none';
+      document.getElementById('gameInfo').textContent = won
+        ? 'Congratulations!'
+        : 'ゲームオーバー';
+      submitButton.style.display = won
+        ? ''
+        : 'none';
+      tiles.forEach((tile, index) => {
+        if (tile.hasMine) {
+            tile.element.classList.add('mine');
+        }
+      });
+
+    }
+
+    function checkWin() {
+      return tiles.every(tile => tile.hasMine || tile.revealed);
+    }
+
+    function submitResults() {
+      const data = {
+        name: prompt('登録するニックネームの入力:'),
+        result_time: result
+      };
+
+      fetch('https://ss1.xrea.com/obiyy.s324.xrea.com/api/rank.php?cmd=i&game=sw', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+        .then(response => {
+          if (response.ok) {
+            alert('送信完了しました！');
+          } else {
+            alert('すみません。。送信失敗しちゃいました。TOPページの開発者までご連絡ください。キャプチャもらったら登録します。');
+          }
+        })
+        .catch(() => {
+        });
+    }
+  </script>
+</body>
+</html>
