@@ -77,7 +77,6 @@
                 <th>日程</th>
                 <th>対戦相手</th>
                 <th>会場</th>
-                <th>結果</th>
                 <th>ハイライト</th>
             </tr>
         </thead>
@@ -137,8 +136,7 @@
                 row.innerHTML = `
                     <td>${item.match_day}(${item.weekday})</td>
                     <td>${kind}:${item.aite}<br>TIPOFF${item.tipoff}</td>
-                    <td>${item.match_place}<br><a href="https://www.google.co.jp/maps/search/${item.place_detail}" tartget="_blank"> GoogleMapで開く</a></td>
-                    <td>${result}</td>
+                    <td>${item.match_place}<br><a href="https://www.google.co.jp/maps/search/${item.place_detail}" tartget="_blank">GoogleMap</a></td>
                     <td>${youtube}</td>
                 `;
                 tbody.appendChild(row);
