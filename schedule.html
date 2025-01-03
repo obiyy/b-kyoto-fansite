@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>スケジュール</title>
+  <meta content="京都ハンナリーズ好きが作ったサイト" name="title">
+  <meta content="京都ハンナリーズ好きが作ったファンサイト" name="description">
+  <meta content="京都ハンナリーズ,自己紹介カード,自己紹介カードメーカー" name="keywords">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:site" content="@obiyy">
+  <meta property="og:title" content="京都ハンナリーズ好きが作ったサイト">
+  <meta property="og:type" content="blog">
+  <meta property="og:url" content="https://kyoto-fansite.netlify.app/">
+  <meta property="og:image" content="https://kyoto-fansite.netlify.app/card/card3.jpg">
+  <meta property="og:description" content="京都ハンナリーズ好きが作ったサイト">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3840312371391662"
+     crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="./styles.css">
+  <style>
+    table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        caption {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+        #loading {
+            font-size: 1.2em;
+            color: #555;
+            display: none;
+        }
+  </style>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8MB6TQHHFH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8MB6TQHHFH');
+</script>
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <h1 class="logo">スケジュール</h1>
+      <button class="menu-toggle" aria-label="Toggle navigation">☰</button>
+      <nav class="nav">
+        <ul>
+            <li><a href="https://kyoto-fansite.netlify.app/">HOME</a></li>
+            <li><a href="https://kyoto-fansite.netlify.app/schedule.html">スケジュール</a></li>
+            <li><a href="https://kyoto-bcardmaker.netlify.app/" target="_blank">カード作成</a></li>
+            <li><a href="https://kyoto-fansite.netlify.app/game/index.html">ミニゲーム</a></li>
+            <li><a href="https://kyoto-fansite.netlify.app/index.html#music">ミュージック</a></li>  
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <a href="./schedule.html?date=all">すべて</a> / <a href="./schedule.html">当月</a>
+    <div id="loading">データを読み込んでいます...</div>
+    <table style="display: none;" id="schedule-table">
+        <thead>
+            <tr>
+                <th>日程</th>
+                <th>対戦相手</th>
+                <th>会場</th>
+                <th>結果</th>
+                <th>ハイライト</th>
+            </tr>
+        </thead>
+        <tbody id="schedule-body">
+            <!-- データをここに動的に追加します -->
+        </tbody>
+    </table>
+    </main>
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2025 京都ハンナリーズ好きが作ったサイト. All Rights Reserved.</p>
+    </div>
+  </footer>
+  <script>
+    async function fetchSchedule() {
+        const loadingElement = document.getElementById('loading');
+        const tableElement = document.getElementById('schedule-table');
+        const tbody = document.getElementById('schedule-body');
+        const caption = tableElement.querySelector('caption');
+        let youtube = '';
+
+        // ローディング表示
+        loadingElement.style.display = 'block';
+        tableElement.style.display = 'none';
+        tbody.innerHTML = ''; // 前のデータをクリア
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const date = urlParams.get('date');
+
+        try {
+            const response = await fetch(`https://ss1.xrea.com/obiyy.s324.xrea.com/api/schedule.php?date=${date}`);
+            if (!response.ok) {
+                console.error('ランキングデータの取得に失敗しました。', response.status);
+                return;
+            }
+
+            const data = await response.json();
+
+            // 順位を計算して表示
+            data.forEach((item, index) => {
+                const row = document.createElement('tr');
+                const kind = (item.mache_day == 1) ? 'HOME': 'AWAY';
+                const result = (item.result_kyoto) ? item.result_kyoto +' × ' + item.result_aite : '';
+                youtube = '';
+                if (item.youtube)
+                {
+                    youtube = `
+                    <iframe 
+                        height="200" 
+                        src="https://www.youtube.com/embed/${item.youtube}" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
+                    `;
+                }
+                row.innerHTML = `
+                    <td>${item.match_day}(${item.weekday})</td>
+                    <td>${kind}:${item.aite}<br>TIPOFF${item.tipoff}</td>
+                    <td>${item.match_place}<br><a href="https://www.google.co.jp/maps/search/${item.place_detail}" tartget="_blank"> GoogleMapで開く</a></td>
+                    <td>${result}</td>
+                    <td>${youtube}</td>
+                `;
+                tbody.appendChild(row);
+            });
+
+            // テーブル表示
+            loadingElement.style.display = 'none';
+            tableElement.style.display = 'table';
+        } catch (error) {
+            console.error('エラーが発生しました。', error);
+        } finally {
+            loadingElement.style.display = 'none';
+        }
+    }
+
+    fetchSchedule();
+</script>
+  <script src="./script.js"></script>
+</body>
+</html>
