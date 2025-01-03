@@ -13,7 +13,7 @@ function MkCard()
   var aCardImg = $('._js_card_img:checked').val();
 
     var img = new Image();
-	img.src = "https://kyoto-bcardmaker.netlify.app/"+aCardImg;
+	img.src = "https://kyoto-fansite.netlify.app/"+aCardImg;
 	var cvs = document.getElementById('srcImg');
     cvs.width = $('._js_none_img').width();
     cvs.height = $('._js_none_img').height();
@@ -24,7 +24,7 @@ function MkCard()
     if ( aNewCardFlg )
     {
         var img2 = new Image();
-        img2.src = "https://kyoto-bcardmaker.netlify.app/"+aCardImg;
+        img2.src = "https://kyoto-fansite.netlify.app/"+aCardImg;
         var ctxt2 = cvs.getContext('2d');
         aScale2 = aScale;
         aScale = aScale * 0.74;
@@ -267,5 +267,5 @@ function saveImage(){
   //canvas を探索
   var cvs = document.getElementById('srcImg');
   //canvas の dataURL を Blob に変換し保存
-  saveBlob(dataUrlToBlob(cvs.toDataURL()), 'bleague-card.png');
+  saveBlob(dataUrlToBlob(cvs.toDataURL()), 'kyoto-fancard.png');
 }
