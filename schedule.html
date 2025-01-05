@@ -115,9 +115,23 @@
     const urlParams = new URLSearchParams(window.location.search);
 
     function formInit() {
-        document.getElementById('kind-'+urlParams.get('kind')).checked = true;
-        document.getElementById('winlose-'+urlParams.get('winlose')).checked = true;
-        document.getElementById('val-date').value = urlParams.get('date');
+        if (urlParams.get('kind'))
+        {
+            document.getElementById('kind-'+urlParams.get('kind')).checked = true;
+        }
+
+        if (urlParams.get('winlose'))
+        {
+            document.getElementById('winlose-'+urlParams.get('winlose')).checked = true;
+        }
+
+        if (urlParams.get('date'))
+        {
+            document.getElementById('val-date').value = urlParams.get('date');
+        } else {
+            const today = new Date();
+            document.getElementById('val-date').value = today.getFullYear() + '/' + String(today.getMonth()+1).padStart(2, '0');
+        }
     }
      async function fetchSchedule() {
         const loadingElement = document.getElementById('loading');
