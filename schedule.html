@@ -72,10 +72,11 @@
     </div>
   </header>
   <main>
+    <a href="javascript:;" onclick="document.getElementById('val-date').value='all';document.getElementById('schedule-submit').submit();">すべて</a> / 
     <<a href="" id="prev-mon">前月</a> <a href="./schedule.html">当月</a> <a href="" id="next-mon">次月</a>>
     <span id="target-date" class="target-date"></span> <span id="count"></span>
     <div id="search">
-        <form action="./schedule.html" method="get">
+        <form action="./schedule.html" method="get" id="schedule-submit">
             <input type="hidden" name="date" id="val-date" value="">
         <label><input type="radio" name="kind" id="kind-1" value="1">HOMEのみ</label>
         <label><input type="radio" name="kind" id="kind-2" value="2">AWAYのみ</label>
