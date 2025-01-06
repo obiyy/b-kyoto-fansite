@@ -205,7 +205,7 @@
                 month = today.getMonth()+1;
             }
             
-            targetDate.innerHTML = year + '年' + month + '月';
+            targetDate.innerHTML = (date == 'all') ? 'すべて' : year + '年' + month + '月';
             const nextMonth = getNextMonth(year, month);
             const prevMonth = getPreviousMonth(year, month);
 
