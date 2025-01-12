@@ -165,6 +165,7 @@
                 const row = document.createElement('tr');
                 const kind = (item.mache_day == 1) ? 'HOME': 'AWAY';
                 const result = (item.result_kyoto) ? item.result_kyoto +' × ' + item.result_aite : '';
+                const tipoff = (item.tipoff) ? 'TIPOFF' + item.tipoff : '';
                 youtube = '';
                 if (item.youtube)
                 {
@@ -180,7 +181,7 @@
                 }
                 row.innerHTML = `
                     <td>${item.match_day}(${item.weekday})</td>
-                    <td>${kind}:${item.aite}<br>TIPOFF${item.tipoff}</td>
+                    <td>${kind}:${item.aite}<br>${tipoff}</td>
                     <td>${item.match_place}<br><a href="https://www.google.co.jp/maps/search/${item.place_detail}" tartget="_blank">GoogleMap</a></td>
                     <td>${youtube}</td>
                 `;
