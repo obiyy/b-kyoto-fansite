@@ -73,11 +73,30 @@
     </div>
   </header>
   <main>
-    <a href="javascript:;" onclick="document.getElementById('val-date').value='all';document.getElementById('schedule-submit').submit();">すべて</a> / 
-    <<a href="" id="prev-mon">前月</a> <a href="./schedule.html">当月</a> <a href="" id="next-mon">次月</a>>
+    年：
+    <a href="javascript:;" onclick="searchNendo('2023');">2023年</a> | 
+    <a href="javascript:;" onclick="searchNendo('2024');">2024年</a> |
+    <a href="javascript:;" onclick="searchNendo('2025');">2025年</a>
+    <br /> 
+<!--    <a href="javascript:;" onclick="searchDate('all');">すべて</a> / -->
+    月：
+    <a href="javascript:;" onclick="searchDate('01');">1月</a>
+    <a href="javascript:;" onclick="searchDate('02');">2月</a>
+    <a href="javascript:;" onclick="searchDate('03');">3月</a>
+    <a href="javascript:;" onclick="searchDate('04');">4月</a>
+    <a href="javascript:;" onclick="searchDate('05');">5月</a>
+    <a href="javascript:;" onclick="searchDate('06');">6月</a>
+    <a href="javascript:;" onclick="searchDate('07');">7月</a>
+    <a href="javascript:;" onclick="searchDate('08');">8月</a>
+    <a href="javascript:;" onclick="searchDate('09');">9月</a>
+    <a href="javascript:;" onclick="searchDate('10');">10月</a>
+    <a href="javascript:;" onclick="searchDate('11');">11月</a>
+    <a href="javascript:;" onclick="searchDate('12');">12月</a>
+<!--    <a href="" id="prev-mon">前月</a> <a href="./schedule.html">当月</a> <a href="" id="next-mon">次月</a>-->
     <span id="target-date" class="target-date"></span> <span id="count"></span>
     <div id="search">
         <form action="./schedule.html" method="get" id="schedule-submit">
+            <input type="hidden" name="nendo" id="val-nendo" value="">
             <input type="hidden" name="date" id="val-date" value="">
         <label><input type="radio" name="kind" id="kind-1" value="1">HOMEのみ</label>
         <label><input type="radio" name="kind" id="kind-2" value="2">AWAYのみ</label>
@@ -114,7 +133,24 @@
     const prevDate = document.getElementById('prev-mon');
     const nextDate = document.getElementById('next-mon');
     const countDom = document.getElementById('count');
+    const valDate = document.getElementById('val-date');
+    const valNendo = document.getElementById('val-nendo');
+    const scheduleSubmit = document.getElementById('schedule-submit');
     const urlParams = new URLSearchParams(window.location.search);
+
+    function searchNendo($pNendo) {
+        valNendo.value = $pNendo;
+        valDate.value = 'all';
+        scheduleSubmit.submit();
+    }
+    function searchDate($pDate) {
+        $aDate = $pDate;
+        if ($pDate != 'all') {
+            $aDate = valNendo.value + '/' +$pDate;
+        }
+        valDate.value = $aDate;
+        scheduleSubmit.submit();
+    }
 
     function formInit() {
         if (urlParams.get('kind'))
@@ -129,10 +165,17 @@
 
         if (urlParams.get('date'))
         {
-            document.getElementById('val-date').value = urlParams.get('date');
+            valDate.value = urlParams.get('date');
         } else {
             const today = new Date();
-            document.getElementById('val-date').value = today.getFullYear() + '/' + String(today.getMonth()+1).padStart(2, '0');
+            valDate.value = today.getFullYear() + '/' + String(today.getMonth()+1).padStart(2, '0');
+        }
+        if (urlParams.get('nendo'))
+        {
+            valNendo.value = urlParams.get('nendo');
+        } else {
+            const today = new Date();
+            valNendo.value = today.getFullYear();
         }
     }
      async function fetchSchedule() {
