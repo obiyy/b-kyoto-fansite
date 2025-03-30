@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Webカメラ + 3Dキャラ表示</title>
+    <title>Webカメラ + 3Dモデル操作</title>
     <style>
-        body { margin: 0; overflow: hidden; }
+        body { margin: 0; overflow: hidden; touch-action: none; }
         video {
             position: fixed;
             top: 0;
@@ -20,12 +20,17 @@
             left: 0;
         }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/GLTFLoader.js"></script>
 </head>
 <body>
     <video id="video" autoplay playsinline></video>
-    <script type="module">
-        import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.module.min.js';
-        import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three/examples/jsm/loaders/GLTFLoader.js';
+
+    <script>
+        let model;
+        let lastTouchDist = null;
+        let lastTouchX = null;
+        let lastTouchY = null;
 
         // Webカメラを背景として取得
         const video = document.getElementById("video");
@@ -42,22 +47,26 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
 
-        // ライト
+        // 照明設定
         const light = new THREE.DirectionalLight(0xffffff, 1);
         light.position.set(1, 2, 3);
         scene.add(light);
 
-        // 3Dモデルの読み込み（GLB/GLTF形式）
-        const loader = new GLTFLoader();
+        // 3Dモデルの読み込み
+        const loader = new THREE.GLTFLoader();
         loader.load('https://modelviewer.dev/shared-assets/models/Astronaut.glb', (gltf) => {
-            const model = gltf.scene;
-            model.scale.set(1, 1, 1);
+            model = gltf.scene;
+            model.scale.set(1, 1, 1);  // 初期サイズ
+            model.position.set(0, 0, 0);  // 初期位置
             scene.add(model);
         });
 
         // アニメーションループ
         function animate() {
             requestAnimationFrame(animate);
+            if (model) {
+                model.rotation.y += 0.01; // モデルを回転
+            }
             renderer.render(scene, camera);
         }
         animate();
@@ -68,6 +77,53 @@
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
         });
+
+        // スワイプとピンチ操作のリスナー
+        document.addEventListener("touchstart", (event) => {
+            if (event.touches.length === 1) {
+                lastTouchX = event.touches[0].clientX;
+                lastTouchY = event.touches[0].clientY;
+            } else if (event.touches.length === 2) {
+                lastTouchDist = getTouchDistance(event.touches);
+            }
+        });
+
+        document.addEventListener("touchmove", (event) => {
+            if (!model) return;
+
+            if (event.touches.length === 1) {
+                // 1本指スワイプでXY移動
+                let deltaX = (event.touches[0].clientX - lastTouchX) * 0.01;
+                let deltaY = (event.touches[0].clientY - lastTouchY) * -0.01;  // 逆方向
+
+                model.position.x += deltaX;
+                model.position.y += deltaY;
+
+                lastTouchX = event.touches[0].clientX;
+                lastTouchY = event.touches[0].clientY;
+            } else if (event.touches.length === 2) {
+                // 2本指でピンチ操作（拡大・縮小）
+                let newTouchDist = getTouchDistance(event.touches);
+                let scaleChange = (newTouchDist - lastTouchDist) * 0.005;
+                let newScale = Math.max(0.1, Math.min(3, model.scale.x + scaleChange));
+
+                model.scale.set(newScale, newScale, newScale);
+                lastTouchDist = newTouchDist;
+            }
+        });
+
+        document.addEventListener("touchend", () => {
+            lastTouchDist = null;
+            lastTouchX = null;
+            lastTouchY = null;
+        });
+
+        // ピンチ距離を取得する関数
+        function getTouchDistance(touches) {
+            let dx = touches[0].clientX - touches[1].clientX;
+            let dy = touches[0].clientY - touches[1].clientY;
+            return Math.sqrt(dx * dx + dy * dy);
+        }
     </script>
 </body>
 </html>
