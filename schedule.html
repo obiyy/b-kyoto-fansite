@@ -204,7 +204,7 @@
             // 順位を計算して表示
             data.forEach((item, index) => {
                 const row = document.createElement('tr');
-                const kind = (item.mache_day == 1) ? 'HOME': 'AWAY';
+                const kind = (item.kind == 1) ? 'HOME': 'AWAY';
                 const result = (item.result_kyoto) ? item.result_kyoto +' × ' + item.result_aite : '';
                 const tipoff = (item.tipoff) ? 'TIPOFF' + item.tipoff : '';
                 youtube = '';
