@@ -74,7 +74,7 @@
   </header>
   <main>
     <div class="message">選手名をクリックすると選手名で検索した動画が表示されます。</div>
-    <a href="javascript:;" onclick="toggleBlocks('.2024-2025')">2024-2025を観る</a> | 
+    <a href="javascript:;" onclick="toggleBlocks('2024-2025')">2024-2025を観る</a> | 
     <div class="2024-2025" style="display: none;">
       <a href="javascript:;" onclick="searchYoutube('小野龍猛')">小野 龍猛</a> | 
       <a href="javascript:;" onclick="searchYoutube('水野幹太')">水野 幹太</a> | 
@@ -91,7 +91,7 @@
       <a href="javascript:;" onclick="searchYoutube('古川孝敏')">古川 孝敏</a> | 
       <a href="javascript:;" onclick="searchYoutube('岡田侑大')">岡田 侑大</a>
     </div>
-    <a href="javascript:;" onclick="toggleBlocks('.2025-2026')">2025-2026を観る</a>
+    <a href="javascript:;" onclick="toggleBlocks('2025-2026')">2025-2026を観る</a>
     <div class="2025-2026" style="display: block;">
       <a href="javascript:;" onclick="searchYoutube('小野龍猛')">小野 龍猛</a> | 
       <a href="javascript:;" onclick="searchYoutube('澁田怜音')">澁田 怜音</a> | 
@@ -181,14 +181,12 @@
         }
     }
   function toggleBlocks(pClass) {
-      const blocks = document.querySelectorAll(pClass);
-      blocks.forEach(block => {
+      const block = document.querySelector('.'+pClass);
         if (block.style.display === 'none') {
           block.style.display = 'block';
         } else {
           block.style.display = 'none';
         }
-      });
     }
 </script>
   <script src="./script.js"></script>

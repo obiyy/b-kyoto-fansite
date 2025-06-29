@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kyoto Boosters FanSite</title>
+  <style>
+    /* ─── RESET & BASE ─────────────────────────────── */
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      background-color:#000;
+      color:#fff;
+      font-family:'Helvetica Neue', sans-serif;
+      line-height:1.5;
+    }
+    img { max-width:100%; height:auto; display:block; }
+
+    /* ─── HEADER ───────────────────────────────────── */
+    header {
+      background:#111;
+      padding:1rem;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+    .logo { font-size:1.5rem; font-weight:bold; color:#00BFFF; }
+    nav a {
+      margin-left:1rem;
+      color:#fff;
+      text-decoration:none;
+      font-size:0.95rem;
+      transition:color .2s;
+    }
+    nav a:hover { color:#00FFFF; }
+
+    /* ─── HERO ─────────────────────────────────────── */
+    .hero {
+      background:url('your-hero-image.jpg') center/cover no-repeat;
+      height:320px;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      text-align:center;
+    }
+    .hero h1 {
+      font-size:2rem;
+      background:rgba(0,0,0,0.6);
+      padding:1rem 1.5rem;
+      border-radius:8px;
+      color:#00BFFF;
+    }
+
+    /* ─── SECTION COMMON ───────────────────────────── */
+    section {
+      padding:2rem 1rem;
+      border-bottom:1px solid #222;
+    }
+    section h2 {
+      margin-bottom:1rem;
+      font-size:1.5rem;
+      color:#00BFFF;
+      border-left:4px solid #00BFFF;
+      padding-left:0.5rem;
+    }
+
+    /* ─── SCHEDULE ────────────────────────────────── */
+    #schedule .game-list {
+      list-style:none;
+    }
+    #schedule .game-list li {
+      padding:0.75rem 0;
+      border-bottom:1px solid #222;
+      display:flex;
+      justify-content:space-between;
+      font-size:0.95rem;
+    }
+    #schedule .game-list li:last-child { border-bottom:none; }
+    #schedule .date { color:#00FFFF; }
+    #schedule .opponent { font-weight:bold; }
+
+    /* ─── VIDEO GRID ─────────────────────────────── */
+    #videos .grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fill, minmax(200px,1fr));
+      gap:1rem;
+    }
+    #videos .video-item {
+      background:#111;
+      border-radius:6px;
+      overflow:hidden;
+    }
+    #videos iframe, #videos img {
+      width:100%;
+      display:block;
+    }
+
+    /* ─── MUSIC ───────────────────────────────────── */
+    #music ul {
+      list-style:none;
+    }
+    #music li {
+      margin-bottom:1rem;
+      font-size:1rem;
+    }
+    #music a {
+      color:#00FFFF;
+      text-decoration:none;
+      font-weight:bold;
+    }
+    #music a:hover { text-decoration:underline; }
+
+    /* ─── FOOTER ──────────────────────────────────── */
+    footer {
+      background:#111;
+      padding:2rem 1rem;
+      text-align:center;
+      font-size:0.9rem;
+      color:#888;
+    }
+    footer a {
+      color:#00BFFF;
+      text-decoration:none;
+    }
+
+    /* ─── RESPONSIVE ──────────────────────────────── */
+    @media (min-width:600px) {
+      .hero h1 { font-size:2.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">Kyoto Boosters</div>
+    <nav>
+      <a href="#schedule">Schedule</a>
+      <a href="#videos">Videos</a>
+      <a href="#music">Music</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Welcome Boosters!<br>熱い想いをひとつに。</h1>
+  </section>
+
+  <section id="schedule">
+    <h2>Upcoming Games 🗓️</h2>
+    <ul class="game-list">
+      <li><span class="date">7/5 (Sat)</span><span class="opponent">vs Team A</span><span>＠ Kyoto Arena</span></li>
+      <li><span class="date">7/12 (Sat)</span><span class="opponent">vs Team B</span><span>＠ Away</span></li>
+      <li><span class="date">7/19 (Sat)</span><span class="opponent">vs Team C</span><span>＠ Kyoto Arena</span></li>
+      <!-- 実際の情報に置き換えてください -->
+    </ul>
+  </section>
+
+  <section id="videos">
+    <h2>Videos 📹</h2>
+    <div class="grid">
+      <div class="video-item">
+        <!-- YouTube 埋め込み例 -->
+        <iframe src="https://www.youtube.com/embed/VIDEO_ID1"
+          title="Game Highlight 1" frameborder="0"
+          allowfullscreen></iframe>
+      </div>
+      <div class="video-item">
+        <iframe src="https://www.youtube.com/embed/VIDEO_ID2"
+          title="Game Highlight 2" frameborder="0"
+          allowfullscreen></iframe>
+      </div>
+      <!-- 必要に応じて追加 -->
+    </div>
+  </section>
+
+  <section id="music">
+    <h2>Music 🎵</h2>
+    <ul>
+      <li><a href="https://www.youtube.com/…" target="_blank">応援ソング1（YouTube）</a></li>
+      <li><a href="https://open.spotify.com/…" target="_blank">選手登場曲（Spotify）</a></li>
+      <!-- 音楽リンクを追加 -->
+    </ul>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Kyoto Boosters FanSite</p>
+    <p><a href="https://twitter.com/…">Twitterでフォロー</a> · <a href="mailto:xxx@example.com">お問い合わせ</a></p>
+  </footer>
+
+</body>
+</html>
