@@ -74,20 +74,38 @@
   </header>
   <main>
     <div class="message">選手名をクリックすると選手名で検索した動画が表示されます。</div>
-    <a href="javascript:;" onclick="searchYoutube('小野龍猛')">小野 龍猛</a> | 
-    <a href="javascript:;" onclick="searchYoutube('水野幹太')">水野 幹太</a> | 
-    <a href="javascript:;" onclick="searchYoutube('小西聖也')">小西 聖也</a> | 
-    <a href="javascript:;" onclick="searchYoutube('チャールズ・ジャクソン')">チャールズ・ジャクソン</a> | 
-    <a href="javascript:;" onclick="searchYoutube('岡部雅大')">岡部 雅大</a> | 
-    <a href="javascript:;" onclick="searchYoutube('前田悟')">前田 悟</a> | 
-    <a href="javascript:;" onclick="searchYoutube('川嶋勇人')">川嶋 勇人</a> | 
-    <a href="javascript:;" onclick="searchYoutube('ラシードファラーズ')">ラシード ファラーズ</a> | 
-    <a href="javascript:;" onclick="searchYoutube('アンジェロ・カロイアロ')">アンジェロ・カロイアロ</a> | 
-    <a href="javascript:;" onclick="searchYoutube('エドワード・モリス')">エドワード・モリス</a> | 
-    <a href="javascript:;" onclick="searchYoutube('澁田怜音')">澁田 怜音</a> | 
-    <a href="javascript:;" onclick="searchYoutube('ジョーダン・ヒース')">ジョーダン・ヒース</a> | 
-    <a href="javascript:;" onclick="searchYoutube('古川孝敏')">古川 孝敏</a> | 
-    <a href="javascript:;" onclick="searchYoutube('岡田侑大')">岡田 侑大</a>
+    <a href="javascript:;" onclick="toggleBlocks('.2024-2025')">2024-2025を観る</a> | 
+    <div class="2024-2025" style="display: none;">
+      <a href="javascript:;" onclick="searchYoutube('小野龍猛')">小野 龍猛</a> | 
+      <a href="javascript:;" onclick="searchYoutube('水野幹太')">水野 幹太</a> | 
+      <a href="javascript:;" onclick="searchYoutube('小西聖也')">小西 聖也</a> | 
+      <a href="javascript:;" onclick="searchYoutube('チャールズ・ジャクソン')">チャールズ・ジャクソン</a> | 
+      <a href="javascript:;" onclick="searchYoutube('岡部雅大')">岡部 雅大</a> | 
+      <a href="javascript:;" onclick="searchYoutube('前田悟')">前田 悟</a> | 
+      <a href="javascript:;" onclick="searchYoutube('川嶋勇人')">川嶋 勇人</a> | 
+      <a href="javascript:;" onclick="searchYoutube('ラシードファラーズ')">ラシード ファラーズ</a> | 
+      <a href="javascript:;" onclick="searchYoutube('アンジェロ・カロイアロ')">アンジェロ・カロイアロ</a> | 
+      <a href="javascript:;" onclick="searchYoutube('エドワード・モリス')">エドワード・モリス</a> | 
+      <a href="javascript:;" onclick="searchYoutube('澁田怜音')">澁田 怜音</a> | 
+      <a href="javascript:;" onclick="searchYoutube('ジョーダン・ヒース')">ジョーダン・ヒース</a> | 
+      <a href="javascript:;" onclick="searchYoutube('古川孝敏')">古川 孝敏</a> | 
+      <a href="javascript:;" onclick="searchYoutube('岡田侑大')">岡田 侑大</a>
+    </div>
+    <a href="javascript:;" onclick="toggleBlocks('.2025-2026')">2025-2026を観る</a>
+    <div class="2025-2026" style="display: block;">
+      <a href="javascript:;" onclick="searchYoutube('小野龍猛')">小野 龍猛</a> | 
+      <a href="javascript:;" onclick="searchYoutube('澁田怜音')">澁田 怜音</a> | 
+      <a href="javascript:;" onclick="searchYoutube('チャールズ・ジャクソン')">チャールズ・ジャクソン</a> | 
+      <a href="javascript:;" onclick="searchYoutube('小川麻斗')">小川 麻斗</a> | 
+      <a href="javascript:;" onclick="searchYoutube('前田悟')">前田 悟</a> | 
+      <a href="javascript:;" onclick="searchYoutube('川嶋勇人')">川嶋 勇人</a> | 
+      <a href="javascript:;" onclick="searchYoutube('渡辺竜之佑')">渡辺 竜之佑</a> | 
+      <a href="javascript:;" onclick="searchYoutube('ラシードファラーズ')">ラシード ファラーズ</a> | 
+      <a href="javascript:;" onclick="searchYoutube('アンジェロ・カロイアロ')">アンジェロ・カロイアロ</a> | 
+      <a href="javascript:;" onclick="searchYoutube('ジョーダン・ヒース')">ジョーダン・ヒース</a> | 
+      <a href="javascript:;" onclick="searchYoutube('ホール百音アレックス')">ホール百音アレックス</a> | 
+      <a href="javascript:;" onclick="searchYoutube('古川孝敏')">古川 孝敏</a>
+    </div>
     <div id="loading">データを読み込んでいます...</div>
     <table style="display: none;" id="youtube-table">
         <thead>
@@ -162,7 +180,16 @@
             loadingElement.style.display = 'none';
         }
     }
-
+  function toggleBlocks(pClass) {
+      const blocks = document.querySelectorAll(pClass);
+      blocks.forEach(block => {
+        if (block.style.display === 'none') {
+          block.style.display = 'block';
+        } else {
+          block.style.display = 'none';
+        }
+      });
+    }
 </script>
   <script src="./script.js"></script>
 </body>
