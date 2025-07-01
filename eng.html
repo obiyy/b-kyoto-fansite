@@ -23,7 +23,7 @@
     async function fetchSubtitles() {
       const url = document.getElementById('youtubeUrl').value;
 
-      const res = await fetch('https://your-api.onrender.com/get_subtitles', {
+      const res = await fetch('https://movie-transcript.onrender.com/get_subtitles', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ url })
