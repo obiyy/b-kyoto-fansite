@@ -192,14 +192,13 @@ footer a {
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-8MB6TQHHFH');
 </script>
 </head>
 <body>
 
   <header>
-    <div class="logo">HANNARYZ ファンサイト</div>
+    <div class="logo">HANNARYZ FAN SITE</div>
     <nav>
       <a href="./schedule.html">Schedule</a>
       <a href="./youtube.html">Videos</a>
@@ -213,6 +212,7 @@ footer a {
     <div class="slide" style="background-image: url('./card/card2.jpg');"></div>
     <div class="slide" style="background-image: url('./card/card3.jpg');"></div>
     <div class="slide" style="background-image: url('./card/card4.jpg');"></div>
+    <div class="slide" style="background-image: url('./card/card5.jpg');"></div>
   </div>
 
 <section class="hero">
@@ -220,7 +220,7 @@ footer a {
   </section>
 
   <section id="schedule">
-    <h2>Upcoming Games 🗓️</h2>
+    <h2>Schedule 🗓️</h2>
     <ul class="game-list">
       <li><span class="date">7/5 (Sat)</span><span class="opponent">vs Team A</span><span>＠ Kyoto Arena</span></li>
       <li><span class="date">7/12 (Sat)</span><span class="opponent">vs Team B</span><span>＠ Away</span></li>
@@ -230,7 +230,8 @@ footer a {
 
   <section id="videos">
     <h2>Videos 📹</h2>
-    今日のおすすめ動画を選手名で検索して表示します。
+    <p>おすすめ動画を選手名で検索して表示します。</p>
+    <p id="player-name"></p>選手
     <div class="grid" id="youtube-body">
     </div>
     <a href="./youtube.html">もっと見る</a>
@@ -239,9 +240,28 @@ footer a {
   <section id="music">
     <h2>プレイリスト 🎵</h2>
     <ul>
-      <li><a href="https://open.spotify.com/playlist/1JvVpODZ0ayAYmUIczb6Ky" target="_blank" >23-24プレイリスト</a></li>
-      <li><a href="https://open.spotify.com/playlist/0Wx5eYXzLB81jaGpMM1VTp" target="_blank" >24-25プレイリスト</a></li>
+      <li><a href="https://open.spotify.com/playlist/1JvVpODZ0ayAYmUIczb6Ky" target="_blank" >23-24シーズン</a></li>
+      <li><a href="https://open.spotify.com/playlist/0Wx5eYXzLB81jaGpMM1VTp" target="_blank" >24-25シーズン</a></li>
       </ul>
+  </section>
+
+  <section id="cards">
+    <h2>自己紹介カード</h2>
+    <p>選手の自己紹介カードを作成できます。以下のリンクからカードを生成してください。</p>
+    <ul>
+      <li><a href="https://kyoto-bcardmaker.netlify.app/" target="_blank">カードを作成する</a></li>
+    </ul>
+  </section>
+
+  <section id="game">
+    <h2>ミニゲーム 🎮</h2>
+    <p>京都ハンナリーズにちなんだミニゲームをお楽しみください！</p>
+    <a href="./game/index.html" class="btn">ミニゲームをする</a>
+  </section>
+
+  <section id="about">
+    <h2>About Us</h2>
+    <p>このサイトは京都ハンナリーズのファンが作成した非公式サイトです。最新情報や試合結果、選手の紹介などを掲載しています。</p>
   </section>
 
   <footer>
@@ -312,6 +332,7 @@ footer a {
             'ホール百音アレックス','古川孝敏'
         ];
         const randomIndex = Math.floor(Math.random() * players.length);
+        document.getElementById('player-name').textContent = players[randomIndex];
         searchYoutube(players[randomIndex]);
     }
   // 初期表示
