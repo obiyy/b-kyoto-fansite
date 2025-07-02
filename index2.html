@@ -277,6 +277,7 @@ footer a {
             const data = await response.json();
             let count = 0; // 表示した動画の数をカウント
             data.forEach((item, index) => {
+                if (count >= limitShowNumber) return; // 指定数以上は表示しない
                 const row = document.createElement('div');
                 row.addClassName = 'video-item';
                 youtube = '';
@@ -304,8 +305,17 @@ footer a {
         } finally {
         }
     }
+    function randomSearch() {
+        const players = [
+            '小野龍猛', '澁田怜音', 'チャールズ・ジャクソン', '小川麻斗', '前田悟',
+            '川嶋勇人', '渡辺竜之佑', 'ラシードファラーズ', 'アンジェロ・カロイアロ', 'ジョーダン・ヒース',
+            'ホール百音アレックス','古川孝敏'
+        ];
+        const randomIndex = Math.floor(Math.random() * players.length);
+        searchYoutube(players[randomIndex]);
+    }
   // 初期表示
-  searchYoutube('古川孝敏');  
+  randomSearch();  
   </script>
 </body>
 </html>
