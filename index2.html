@@ -36,6 +36,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-bottom: 1px solid #f5f5f5;
 }
 
 .logo {
@@ -169,16 +170,30 @@ section h2 {
 footer {
   background: #0088a2;
   color: #fff;
-  /* background: #eeeeee; */
   padding: 2rem 1rem;
   text-align: center;
   font-size: 0.9rem;
-  /* color: #666; */
 }
 
 footer a {
-  color: #0088a2;
+  color: #fff;
   text-decoration: none;
+}
+
+/* --- ハンバーガー用初期非表示 --- */
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  color: #0088a2;
+  cursor: pointer;
+}
+
+/* 通常表示（PC） */
+.nav-menu {
+  display: flex;
+  gap: 1rem;
 }
 
 /* ===== レスポンシブ対応 ===== */
@@ -187,8 +202,38 @@ footer a {
     font-size: 2.2rem;
   }
 }
+@media (max-width: 768px) {
+  /* ハンバーガーを表示 */
+  .menu-toggle {
+    display: block;
+  }
 
-  </style>
+  /* ナビは縦並び・非表示から開始 */
+  .nav-menu {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    right: 1rem;
+    background: #ffffff;
+    border: 1px solid #ccc;
+    padding: 1rem;
+    z-index: 10;
+  }
+
+  .nav-menu a {
+    color: #0088a2;
+    padding: 0.5rem 0;
+    text-decoration: none;
+    font-size: 1rem;
+  }
+
+  .nav-menu.show {
+    display: flex;
+  }
+}
+
+</style>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-8MB6TQHHFH"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -200,11 +245,19 @@ footer a {
 <body>
 
   <header>
-    <div class="logo">HANNARYZ FAN SITE</div>
-    <nav>
+    <div class="logo">HANNARYZ<br>FAN SITE</div>
+      <!-- ハンバーガーアイコン -->
+    <button class="menu-toggle" aria-label="メニューを開く">
+      ☰
+    </button>
+
+    <!-- ナビゲーション -->
+    <nav class="nav-menu">
       <a href="./schedule.html">Schedule</a>
       <a href="./youtube.html">Videos</a>
-      <a href="#music">Music</a>
+      <a href="#music">プレイリスト</a>
+      <a href="https://kyoto-bcardmaker.netlify.app/">自己紹介カード</a>
+      <a href="./game/index.html">ミニゲーム</a>
     </nav>
   </header>
 
@@ -216,7 +269,7 @@ footer a {
     <div class="slide" style="background-image: url('./card/card4.jpg');"></div>
     <div class="slide" style="background-image: url('./card/card5.jpg');"></div>
   </div>
-  
+
   <section id="schedule">
     <h2>Schedule 🗓️</h2>
     <ul class="game-list">
@@ -267,9 +320,19 @@ footer a {
 
   <!-- 🎬 JavaScript for Slideshow -->
   <script>
+    // ハンバーガーメニューのトグル
+    document.addEventListener('DOMContentLoaded', () => {
+      const toggleBtn = document.querySelector('.menu-toggle');
+      const navMenu = document.querySelector('.nav-menu');
+
+      toggleBtn.addEventListener('click', () => {
+        navMenu.classList.toggle('show');
+      });
+    });
+
+    // スライドショーの設定
     const slides = document.querySelectorAll('.slide');
     let current = 0;
-
     setInterval(() => {
       slides[current].classList.remove('active');
       current = (current + 1) % slides.length;
