@@ -30,7 +30,9 @@ body {
 
 /* ===== ヘッダー ===== */
 header {
-  background: #ffffff;
+  background: #0088a2;
+  color: #fff;
+  /* background: #ffffff; */
   padding: 1rem;
   display: flex;
   justify-content: space-between;
@@ -41,7 +43,7 @@ header {
 .logo {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #0088a2;
+  color: #fff;
 }
 
 nav a {
@@ -167,11 +169,13 @@ section h2 {
 
 /* ===== フッター ===== */
 footer {
-  background: #eeeeee;
+  background: #0088a2;
+  color: #fff;
+  /* background: #eeeeee; */
   padding: 2rem 1rem;
   text-align: center;
   font-size: 0.9rem;
-  color: #666;
+  /* color: #666; */
 }
 
 footer a {
@@ -230,8 +234,8 @@ footer a {
 
   <section id="videos">
     <h2>Videos 📹</h2>
-    <p>おすすめ動画を選手名で検索して表示します。</p>
-    <p id="player-name"></p>選手
+    <p>おすすめ動画をランダム表示します。</p>
+    <p id="player-name"></p>
     <div class="grid" id="youtube-body">
     </div>
     <a href="./youtube.html">もっと見る</a>
@@ -332,7 +336,7 @@ footer a {
             'ホール百音アレックス','古川孝敏'
         ];
         const randomIndex = Math.floor(Math.random() * players.length);
-        document.getElementById('player-name').textContent = players[randomIndex];
+        document.getElementById('player-name').textContent = players[randomIndex]+"選手のおすすめ動画";
         searchYoutube(players[randomIndex]);
     }
   // 初期表示
