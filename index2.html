@@ -7,15 +7,13 @@
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
     body {
-      background-color:#000;
+      background-color:#1e1e1e;
       color:#fff;
       font-family:'Helvetica Neue', sans-serif;
-      line-height:1.5;
     }
-    img { max-width:100%; height:auto; display:block; }
 
     header {
-      background:#111;
+      background:#2a2a2a;
       padding:1rem;
       display:flex;
       justify-content:space-between;
@@ -35,25 +33,42 @@
     }
     nav a:hover { color:#0088a2; }
 
-    .hero {
-      background:url('./card/card1.jpg') center/cover no-repeat;
-      height:320px;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      text-align:center;
+    /* ── HERO SLIDER ── */
+    .hero-slider {
+      position: relative;
+      height: 300px;
+      overflow: hidden;
     }
-    .hero h1 {
-      font-size:2rem;
-      background:rgba(0,0,0,0.6);
-      padding:1rem 1.5rem;
-      border-radius:8px;
-      color:#0088a2;
+    .slide {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+    .slide.active {
+      opacity: 1;
+      z-index: 1;
+    }
+    .hero-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0,0,0,0.6);
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      color: #0088a2;
+      text-align: center;
+      font-size: 1.8rem;
     }
 
     section {
       padding:2rem 1rem;
-      border-bottom:1px solid #222;
+      border-bottom:1px solid #444;
     }
     section h2 {
       margin-bottom:1rem;
@@ -63,56 +78,14 @@
       padding-left:0.5rem;
     }
 
-    #schedule .game-list {
-      list-style:none;
-    }
-    #schedule .game-list li {
-      padding:0.75rem 0;
-      border-bottom:1px solid #222;
-      display:flex;
-      justify-content:space-between;
-      font-size:0.95rem;
-    }
-    #schedule .game-list li:last-child { border-bottom:none; }
-    #schedule .date { color:#0088a2; }
-    #schedule .opponent { font-weight:bold; }
-
-    #videos .grid {
-      display:grid;
-      grid-template-columns:repeat(auto-fill, minmax(200px,1fr));
-      gap:1rem;
-    }
-    #videos .video-item {
-      background:#111;
-      border-radius:6px;
-      overflow:hidden;
-    }
-
-    #videos iframe, #videos img {
-      width:100%;
-      display:block;
-    }
-
-    #music ul {
-      list-style:none;
-    }
-    #music li {
-      margin-bottom:1rem;
-      font-size:1rem;
-    }
-    #music a {
-      color:#0088a2;
-      text-decoration:none;
-      font-weight:bold;
-    }
-    #music a:hover { text-decoration:underline; }
+    /* 以下省略（スケジュール・動画・ミュージックなど） */
 
     footer {
-      background:#111;
+      background:#2a2a2a;
       padding:2rem 1rem;
       text-align:center;
       font-size:0.9rem;
-      color:#888;
+      color:#bbb;
     }
     footer a {
       color:#0088a2;
@@ -120,7 +93,7 @@
     }
 
     @media (min-width:600px) {
-      .hero h1 { font-size:2.5rem; }
+      .hero-text { font-size:2.2rem; }
     }
   </style>
 </head>
@@ -129,16 +102,22 @@
   <header>
     <div class="logo">Kyoto Boosters</div>
     <nav>
-      <a href="./schedule.html">Schedule</a>
-      <a href="./youtube.html">movie</a>
-      <a href="./game">game</a>
-      <a href="https://kyoto-bcardmaker.netlify.app/">カード作成</a>
+      <a href="./schedule">Schedule</a>
+      <a href="#videos">Videos</a>
       <a href="#music">Music</a>
     </nav>
   </header>
 
-  <section class="hero">
-    <h1>Welcome Boosters!<br>熱い想いをひとつに。</h1>
+  <!-- 🎞️ HERO SLIDER -->
+  <div class="hero-slider">
+    <div class="slide active" style="background-image: url('./card/card1.jpg');"></div>
+    <div class="slide" style="background-image: url('./card/card2.jpg');"></div>
+    <div class="slide" style="background-image: url('./card/card3.jpg');"></div>
+    <div class="hero-text">GO! KYOTO! HANNARYZ!</div>
+  </div>
+
+<section class="hero">
+    <h1>GO! KYOTO! HANNARYZ!</h1>
   </section>
 
   <section id="schedule">
@@ -165,14 +144,27 @@
   <section id="music">
     <h2>Music 🎵</h2>
     <ul>
-      <li><a href="https://open.spotify.com/playlist/1JvVpODZ0ayAYmUIczb6Ky" target="_blank" >23-24プレイリスト</a></li>
-      <li><a href="https://open.spotify.com/playlist/0Wx5eYXzLB81jaGpMM1VTp" target="_blank" >24-25プレイリスト</li>
+      <li><a href="https://www.youtube.com/…" target="_blank">応援ソング1（YouTube）</a></li>
+      <li><a href="https://open.spotify.com/…" target="_blank">選手登場曲（Spotify）</a></li>
     </ul>
   </section>
 
   <footer>
     <p>&copy; 2025 Kyoto Boosters FanSite</p>
+    <p><a href="https://twitter.com/…">Twitterでフォロー</a> · <a href="mailto:xxx@example.com">お問い合わせ</a></p>
   </footer>
+
+  <!-- 🎬 JavaScript for Slideshow -->
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    let current = 0;
+
+    setInterval(() => {
+      slides[current].classList.remove('active');
+      current = (current + 1) % slides.length;
+      slides[current].classList.add('active');
+    }, 5000); // 5秒ごとに切り替え
+  </script>
 
 </body>
 </html>
