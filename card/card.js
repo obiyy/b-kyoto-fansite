@@ -12,6 +12,7 @@ document.getElementById("custom-image").addEventListener("change", function (e) 
 });
 
 function drawCard() {
+    alert("1");
   const name = document.getElementById("name").value;
   const hobby = document.getElementById("hobby").value;
   const message = document.getElementById("message").value;
@@ -42,9 +43,11 @@ function drawCard() {
     if (xUrl) drawQR(xUrl, 30, 280);
     if (instaUrl) drawQR(instaUrl, 150, 280);
   };
+    alert("2");
 }
 
 function drawQR(text, x, y) {
+    alert("3");
   const tempDiv = document.createElement("div");
   const qr = new QRCode(tempDiv, {
     text: text,
