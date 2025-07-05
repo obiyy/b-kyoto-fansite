@@ -18,7 +18,6 @@ function drawCard() {
   const bgImage = new Image();
   const selectedBG = document.getElementById("background-selector").value;
   bgImage.src = selectedBG;
-  alert(bgImage.src);
 
   bgImage.onload = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
