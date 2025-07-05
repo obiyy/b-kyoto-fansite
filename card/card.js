@@ -3,7 +3,7 @@ const ctx = canvas.getContext("2d");
 
 let uploadedImage = null;
 
-// アップロード画像読み込み
+// 画像アップロード
 document.getElementById("custom-image").addEventListener("change", function (e) {
   const reader = new FileReader();
   reader.onload = function (event) {
@@ -14,7 +14,6 @@ document.getElementById("custom-image").addEventListener("change", function (e) 
 });
 
 function drawCard() {
-  // 入力取得
   const name = document.getElementById("name").value;
   const favoritePlayer = document.getElementById("favorite-player").value;
   const favoritePerson = document.getElementById("favorite-person").value;
@@ -27,39 +26,38 @@ function drawCard() {
   const xUrl = document.getElementById("x-url").value;
   const instaUrl = document.getElementById("insta-url").value;
 
-  const bgImage = new Image();
   const selectedBG = document.getElementById("background-selector").value;
+  const bgImage = new Image();
   bgImage.src = "" + selectedBG;
 
   bgImage.onload = () => {
-    // 背景描画
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
 
     ctx.font = "20px Meiryo";
-    ctx.fillStyle = "#ffffff";
+    ctx.textBaseline = "top";
+    ctx.textAlign = "start";
 
-    let y = 50;
-    const lineHeight = 30;
+    let y = 30;
+    const lineGap = 36;
 
-    // 文字列描画
-    ctx.fillText("名前: " + name, 30, y); y += lineHeight;
-    ctx.fillText("好きな選手: " + favoritePlayer, 30, y); y += lineHeight;
-    ctx.fillText("ハンナリーズで好きな人: " + favoritePerson, 30, y); y += lineHeight;
-    ctx.fillText("好きなアリーナ飯: " + arenaFood, 30, y); y += lineHeight;
-    ctx.fillText("ハンナリーズ歴: " + years + "年", 30, y); y += lineHeight;
-    ctx.fillText("好きな座席: " + favoriteSeat, 30, y); y += lineHeight;
+    drawTextWithBackground("名前: " + name, 30, y); y += lineGap;
+    drawTextWithBackground("好きな選手: " + favoritePlayer, 30, y); y += lineGap;
+    drawTextWithBackground("ハンナリーズで好きな人: " + favoritePerson, 30, y); y += lineGap;
+    drawTextWithBackground("好きなアリーナ飯: " + arenaFood, 30, y); y += lineGap;
+    drawTextWithBackground("ハンナリーズ歴: " + years + "年", 30, y); y += lineGap;
+    drawTextWithBackground("好きな座席: " + favoriteSeat, 30, y); y += lineGap;
 
     y += 10;
-    wrapText("京都を好きになったきっかけ: " + kyotoReason, 30, y); y += lineHeight * 3;
-    wrapText("選手を好きになったきっかけ: " + playerReason, 30, y); y += lineHeight * 3;
-    wrapText("フリースペース: " + freeSpace, 30, y); y += lineHeight * 3;
+    drawMultilineTextWithBackground("京都を好きになったきっかけ: " + kyotoReason, 30, y); y += lineGap * 3;
+    drawMultilineTextWithBackground("選手を好きになったきっかけ: " + playerReason, 30, y); y += lineGap * 3;
+    drawMultilineTextWithBackground("フリースペース: " + freeSpace, 30, y); y += lineGap * 3;
 
-    // QRコード描画
-    if (xUrl) drawQR(xUrl, 400, canvas.height - 130); // 右下に配置
-    if (instaUrl) drawQR(instaUrl, 500, canvas.height - 130);
+    // QRコード＋ラベル
+    if (xUrl) drawQR(xUrl, 400, canvas.height - 130, "X");
+    if (instaUrl) drawQR(instaUrl, 500, canvas.height - 130, "Instagram");
 
-    // 自由画像
+    // アップロード画像
     if (uploadedImage) {
       uploadedImage.onload = () => {
         ctx.drawImage(uploadedImage, 400, 30, 160, 160);
@@ -71,18 +69,40 @@ function drawCard() {
   };
 }
 
-// テキストを折り返して描画
-function wrapText(text, x, y) {
+// テキスト＋背景（1行用）
+function drawTextWithBackground(text, x, y) {
+  const padding = 6;
+  const textMetrics = ctx.measureText(text);
+  const width = textMetrics.width + padding * 2;
+  const height = 28;
+
+  ctx.globalAlpha = 0.6;
+  ctx.fillStyle = "#000000";
+  ctx.fillRect(x - padding, y - 2, width, height);
+  ctx.globalAlpha = 1.0;
+
+  ctx.fillStyle = "#ffffff";
+  ctx.fillText(text, x, y);
+}
+
+// テキスト＋背景（複数行用）
+function drawMultilineTextWithBackground(text, x, y) {
   const maxWidth = 540;
-  const lineHeight = 24;
+  const lineHeight = 28;
+  const padding = 6;
   const words = text.split(/(\s+|。|、|，|．|・|\/)/);
   let line = '';
 
   for (let n = 0; n < words.length; n++) {
     const testLine = line + words[n];
-    const metrics = ctx.measureText(testLine);
-    const testWidth = metrics.width;
+    const testWidth = ctx.measureText(testLine).width;
     if (testWidth > maxWidth && n > 0) {
+      ctx.globalAlpha = 0.6;
+      ctx.fillStyle = "#000000";
+      ctx.fillRect(x - padding, y - 2, ctx.measureText(line).width + padding * 2, lineHeight);
+      ctx.globalAlpha = 1.0;
+
+      ctx.fillStyle = "#ffffff";
       ctx.fillText(line, x, y);
       line = words[n];
       y += lineHeight;
@@ -90,10 +110,19 @@ function wrapText(text, x, y) {
       line = testLine;
     }
   }
+
+  // 最後の行
+  ctx.globalAlpha = 0.6;
+  ctx.fillStyle = "#000000";
+  ctx.fillRect(x - padding, y - 2, ctx.measureText(line).width + padding * 2, lineHeight);
+  ctx.globalAlpha = 1.0;
+
+  ctx.fillStyle = "#ffffff";
   ctx.fillText(line, x, y);
 }
 
-function drawQR(text, x, y) {
+// QRコード生成＋ラベル付き描画
+function drawQR(text, x, y, label = "") {
   const tempDiv = document.createElement("div");
   const qr = new QRCode(tempDiv, {
     text: text,
@@ -103,16 +132,39 @@ function drawQR(text, x, y) {
   });
 
   const qrImg = tempDiv.querySelector("img");
+
   qrImg.onload = () => {
     ctx.drawImage(qrImg, x, y, 80, 80);
+    drawQRLabel(label, x, y + 85);
   };
 
-  // 画像がすでに生成済みの場合
   if (qrImg.complete) {
     ctx.drawImage(qrImg, x, y, 80, 80);
+    drawQRLabel(label, x, y + 85);
   }
 }
 
+// QRラベル描画
+function drawQRLabel(label, x, y) {
+  const fontSize = 16;
+  ctx.font = `${fontSize}px Meiryo`;
+  ctx.textAlign = "center";
+  ctx.textBaseline = "top";
+
+  const textWidth = ctx.measureText(label).width;
+  const padding = 4;
+
+  ctx.globalAlpha = 0.6;
+  ctx.fillStyle = "#000000";
+  ctx.fillRect(x + 40 - textWidth / 2 - padding, y - 2, textWidth + padding * 2, fontSize + 6);
+  ctx.globalAlpha = 1.0;
+
+  ctx.fillStyle = "#ffffff";
+  ctx.fillText(label, x + 40, y);
+  ctx.textAlign = "start";
+}
+
+// 画像保存
 function downloadImage() {
   const link = document.createElement("a");
   link.download = "自己紹介カード.png";
