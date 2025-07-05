@@ -1,9 +1,19 @@
 const canvas = document.getElementById("cardCanvas");
 const ctx = canvas.getContext("2d");
+const CANVAS_WIDTH = 768;
+const CANVAS_HEIGHT = 768;
+canvas.width = CANVAS_WIDTH;
+canvas.height = CANVAS_HEIGHT;
 
 let uploadedImage = null;
 
-// 画像アップロード
+// 背景画像を選ぶためのセレクター
+function getSelectedBackground() {
+  const selector = document.getElementById("background-selector");
+  return selector ? selector.value : "template.png";
+}
+
+// アップロード画像読み込み
 document.getElementById("custom-image").addEventListener("change", function (e) {
   const reader = new FileReader();
   reader.onload = function (event) {
@@ -26,102 +36,84 @@ function drawCard() {
   const xUrl = document.getElementById("x-url").value;
   const instaUrl = document.getElementById("insta-url").value;
 
-  const selectedBG = document.getElementById("background-selector").value;
+  const selectedBackground = getSelectedBackground();
   const bgImage = new Image();
-  bgImage.src = "" + selectedBG;
+  bgImage.src = "images/" + selectedBackground;
 
   bgImage.onload = () => {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    ctx.drawImage(bgImage, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
-    ctx.font = "20px Meiryo";
+    ctx.font = "18px Meiryo";
+    ctx.fillStyle = "#000000";
     ctx.textBaseline = "top";
-    ctx.textAlign = "start";
 
-    let y = 30;
-    const lineGap = 36;
+    // 入力欄描画
+    drawField("名前: " + name, 30, 30, 708, 30);
+    drawField("好きな選手: " + favoritePlayer, 30, 80, 340, 30);
+    drawField("ハンナリーズで好きな人: " + favoritePerson, 398, 80, 340, 30);
+    drawField("好きなアリーナ飯: " + arenaFood, 30, 130, 340, 30);
+    drawField("好きな座席: " + favoriteSeat, 398, 130, 340, 30);
+    drawField("ハンナリーズ歴: " + years + "年", 600, 30, 140, 30);
 
-    drawTextWithBackground("名前: " + name, 30, y); y += lineGap;
-    drawTextWithBackground("好きな選手: " + favoritePlayer, 30, y); y += lineGap;
-    drawTextWithBackground("ハンナリーズで好きな人: " + favoritePerson, 30, y); y += lineGap;
-    drawTextWithBackground("好きなアリーナ飯: " + arenaFood, 30, y); y += lineGap;
-    drawTextWithBackground("ハンナリーズ歴: " + years + "年", 30, y); y += lineGap;
-    drawTextWithBackground("好きな座席: " + favoriteSeat, 30, y); y += lineGap;
+    drawMultilineField("京都を好きになったきっかけ: " + kyotoReason, 30, 190, 708, 60);
+    drawMultilineField("選手を好きになったきっかけ: " + playerReason, 30, 270, 708, 60);
+    drawMultilineField("フリースペース: " + freeSpace, 30, 350, 708, 100);
 
-    y += 10;
-    drawMultilineTextWithBackground("京都を好きになったきっかけ: " + kyotoReason, 30, y); y += lineGap * 3;
-    drawMultilineTextWithBackground("選手を好きになったきっかけ: " + playerReason, 30, y); y += lineGap * 3;
-    drawMultilineTextWithBackground("フリースペース: " + freeSpace, 30, y); y += lineGap * 3;
-
-    // QRコード＋ラベル
-    if (xUrl) drawQR(xUrl, 400, canvas.height - 130, "X");
-    if (instaUrl) drawQR(instaUrl, 500, canvas.height - 130, "Instagram");
-
-    // アップロード画像
+    // QRコードと画像
+    if (xUrl) drawQR(xUrl, 600, 620, "X");
+    if (instaUrl) drawQR(instaUrl, 680, 620, "Instagram");
     if (uploadedImage) {
       uploadedImage.onload = () => {
-        ctx.drawImage(uploadedImage, 400, 30, 160, 160);
+        ctx.drawImage(uploadedImage, 600, 480, 140, 120);
       };
       if (uploadedImage.complete) {
-        ctx.drawImage(uploadedImage, 400, 30, 160, 160);
+        ctx.drawImage(uploadedImage, 600, 480, 140, 120);
       }
     }
   };
 }
 
-// テキスト＋背景（1行用）
-function drawTextWithBackground(text, x, y) {
-  const padding = 6;
-  const textMetrics = ctx.measureText(text);
-  const width = textMetrics.width + padding * 2;
-  const height = 28;
-
-  ctx.globalAlpha = 0.6;
-  ctx.fillStyle = "#000000";
-  ctx.fillRect(x - padding, y - 2, width, height);
+// 単行フィールド
+function drawField(text, x, y, width, height) {
+  ctx.globalAlpha = 0.5;
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(x, y, width, height);
   ctx.globalAlpha = 1.0;
 
-  ctx.fillStyle = "#ffffff";
-  ctx.fillText(text, x, y);
+  ctx.fillStyle = "#000000";
+  ctx.fillText(text, x + 8, y + 6);
 }
 
-// テキスト＋背景（複数行用）
-function drawMultilineTextWithBackground(text, x, y) {
-  const maxWidth = 540;
-  const lineHeight = 28;
-  const padding = 6;
+// 複数行フィールド
+function drawMultilineField(text, x, y, width, height) {
+  ctx.globalAlpha = 0.5;
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(x, y, width, height);
+  ctx.globalAlpha = 1.0;
+
+  ctx.fillStyle = "#000000";
+  const lineHeight = 22;
   const words = text.split(/(\s+|。|、|，|．|・|\/)/);
   let line = '';
+  let lineY = y + 6;
+  const maxWidth = width - 16;
 
   for (let n = 0; n < words.length; n++) {
     const testLine = line + words[n];
     const testWidth = ctx.measureText(testLine).width;
     if (testWidth > maxWidth && n > 0) {
-      ctx.globalAlpha = 0.6;
-      ctx.fillStyle = "#000000";
-      ctx.fillRect(x - padding, y - 2, ctx.measureText(line).width + padding * 2, lineHeight);
-      ctx.globalAlpha = 1.0;
-
-      ctx.fillStyle = "#ffffff";
-      ctx.fillText(line, x, y);
+      ctx.fillText(line, x + 8, lineY);
       line = words[n];
-      y += lineHeight;
+      lineY += lineHeight;
     } else {
       line = testLine;
     }
   }
-
-  // 最後の行
-  ctx.globalAlpha = 0.6;
-  ctx.fillStyle = "#000000";
-  ctx.fillRect(x - padding, y - 2, ctx.measureText(line).width + padding * 2, lineHeight);
-  ctx.globalAlpha = 1.0;
-
-  ctx.fillStyle = "#ffffff";
-  ctx.fillText(line, x, y);
+  ctx.fillText(line, x + 8, lineY);
 }
 
-// QRコード生成＋ラベル付き描画
+// QRコード描画
 function drawQR(text, x, y, label = "") {
   const tempDiv = document.createElement("div");
   const qr = new QRCode(tempDiv, {
@@ -134,19 +126,17 @@ function drawQR(text, x, y, label = "") {
   const qrImg = tempDiv.querySelector("img");
 
   qrImg.onload = () => {
-    ctx.drawImage(qrImg, x, y, 80, 80);
-    drawQRLabel(label, x, y + 85);
+    ctx.drawImage(qrImg, x, y, 64, 64);
+    drawQRLabel(label, x, y + 70);
   };
-
   if (qrImg.complete) {
-    ctx.drawImage(qrImg, x, y, 80, 80);
-    drawQRLabel(label, x, y + 85);
+    ctx.drawImage(qrImg, x, y, 64, 64);
+    drawQRLabel(label, x, y + 70);
   }
 }
 
-// QRラベル描画
 function drawQRLabel(label, x, y) {
-  const fontSize = 16;
+  const fontSize = 14;
   ctx.font = `${fontSize}px Meiryo`;
   ctx.textAlign = "center";
   ctx.textBaseline = "top";
@@ -156,15 +146,15 @@ function drawQRLabel(label, x, y) {
 
   ctx.globalAlpha = 0.6;
   ctx.fillStyle = "#000000";
-  ctx.fillRect(x + 40 - textWidth / 2 - padding, y - 2, textWidth + padding * 2, fontSize + 6);
+  ctx.fillRect(x + 32 - textWidth / 2 - padding, y - 2, textWidth + padding * 2, fontSize + 6);
   ctx.globalAlpha = 1.0;
 
   ctx.fillStyle = "#ffffff";
-  ctx.fillText(label, x + 40, y);
+  ctx.fillText(label, x + 32, y);
   ctx.textAlign = "start";
 }
 
-// 画像保存
+// 保存ボタン用
 function downloadImage() {
   const link = document.createElement("a");
   link.download = "自己紹介カード.png";
