@@ -2,54 +2,54 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>自己紹介カード作成</title>
-  <link rel="stylesheet" href="./introcard.css"> <!-- 共通CSSを読み込む場合 -->
-  <link rel="stylesheet" href="../styles.css"> <!-- 共通CSSを読み込む場合 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>自己紹介カードメーカー（ハンナリーズ風）</title>
+  <link rel="stylesheet" href="./introcard.css">
 </head>
 <body>
+  <header><h1>京都ハンナリーズ 自己紹介カードメーカー</h1></header>
+  <main class="intro-card-section">
+    <p>入力してダウンロードするだけ京都ハンナリーズの自己紹介カードを作成！<br>
+    背景イラスト提供：<a href="https://x.com/hrrmiau">miharuさん</a> ※Chrome,Safari推奨</p>
+    <hr>
+    <form id="input-form">
+      <input type="text" id="name" placeholder="名前（15文字）" maxlength="15" required>
+      <input type="text" id="favorite-player" placeholder="好きな選手（20文字）" maxlength="20">
+      <input type="text" id="favorite-person" placeholder="ハンナリーズで好きな人（20文字）" maxlength="20">
+      <input type="text" id="arena-food" placeholder="好きなアリーナ飯（20文字）" maxlength="20">
+      <input type="number" id="years" placeholder="ハンナリーズ歴（年）" min="0" max="999">
+      <input type="text" id="favorite-seat" placeholder="好きな座席（20文字）" maxlength="20">
+      <textarea id="kyoto-reason" placeholder="京都を好きになったきっかけ（100文字）" maxlength="100"></textarea>
+      <textarea id="player-reason" placeholder="選手を好きになったきっかけ（100文字）" maxlength="100"></textarea>
+      <textarea id="free-space" placeholder="フリースペース（100文字）" maxlength="100"></textarea>
 
-  <header>
-    <h1>自己紹介カードを作ってみよう！</h1>
-  </header>
+      <label>背景： 
+        <select id="background-selector">
+          <option value="bg1.jpg">背景1</option>
+          <option value="bg2.jpg">背景2</option>
+          <option value="bg3.jpg">背景3</option>
+          <option value="bg4.jpg">背景4</option>
+          <option value="bg5.jpg">背景5</option>
+        </select>
+      </label>
 
-  <main>
-    <section class="intro-card-section">
-      <form id="input-form">
-        <input type="text" id="name" placeholder="名前" required><br>
-        <input type="text" id="hobby" placeholder="趣味"><br>
-        <input type="text" id="message" placeholder="一言"><br>
+      <label>自由画像アップロード：
+        <input type="file" id="custom-image" accept="image/*">
+      </label>
 
-        <input type="url" id="x-url" placeholder="XのURL（任意）"><br>
-        <input type="url" id="insta-url" placeholder="InstagramのURL（任意）"><br>
+      <input type="url" id="x-url" placeholder="XのURL（任意）">
+      <input type="url" id="insta-url" placeholder="InstagramのURL（任意）">
 
-        <label>背景画像を選ぶ:
-          <select id="background-selector">
-            <option value="card1.jpg">背景1</option>
-            <option value="card2.jpg">背景2</option>
-            <option value="card3.jpg">背景3</option>
-            <option value="card4.jpg">背景4</option>
-            <option value="card5.jpg">背景5</option>
-          </select>
-        </label><br>
+      <button type="button" onclick="drawCard()">カード作成</button>
+      <button type="button" onclick="downloadImage()">画像として保存</button>
+    </form>
 
-        <label>好きな画像を追加:
-          <input type="file" id="custom-image" accept="image/*">
-        </label><br>
-
-        <button type="button" onclick="drawCard()">カード作成</button>
-        <button type="button" onclick="downloadImage()">画像保存</button>
-      </form>
-
-      <canvas id="cardCanvas" width="600" height="800"></canvas>
-    </section>
+    <canvas id="cardCanvas" width="600" height="800"></canvas>
   </main>
 
-  <footer>
-    <p>&copy; 2025 Kyoto Fansite</p>
-  </footer>
+  <footer><p>&copy; 2025 Kyoto BCardMaker by オビー</p></footer>
 
-  <script src="./qrcode.min.js"></script>
-  <script src="./card.js"></script>
+  <script src="qrcode.min.js"></script>
+  <script src="card.js"></script>
 </body>
 </html>
