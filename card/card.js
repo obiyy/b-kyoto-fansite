@@ -18,8 +18,10 @@ function drawCard() {
   const bgImage = new Image();
   const selectedBG = document.getElementById("background-selector").value;
   bgImage.src = "card/" + selectedBG;
+  alert(bgImage.src);
 
   bgImage.onload = () => {
+    alert("3");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
 
@@ -45,7 +47,6 @@ function drawCard() {
 }
 
 function drawQR(text, x, y) {
-    alert("3");
   const tempDiv = document.createElement("div");
   const qr = new QRCode(tempDiv, {
     text: text,
