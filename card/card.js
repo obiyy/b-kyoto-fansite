@@ -40,7 +40,7 @@ function drawCard() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
 
-    // アップロード画像（左上・正方形）
+    // アップロード画像（左上）
     if (uploadedImage) {
       if (uploadedImage.complete) {
         ctx.drawImage(uploadedImage, 30, 30, 120, 120);
@@ -55,26 +55,47 @@ function drawCard() {
     ctx.textBaseline = "top";
     ctx.fillStyle = "#000000";
 
-    // 入力枠の表示（Y位置に余白あり）
+    // レイアウト調整用変数
     let currentY = 30;
+    const margin = 20;
 
-    drawField("名前: " + name, 170, currentY, 568, 30); currentY += 50;
+    // 名前
+    drawField("名前: " + name, 170, currentY, 568, 30);
+    currentY += 30 + margin;
+
+    // 好きな選手・好きな人
     drawField("好きな選手: " + favoritePlayer, 30, currentY, 340, 30);
-    drawField("ハンナリーズで好きな人: " + favoritePerson, 398, currentY, 340, 30); currentY += 50;
+    drawField("ハンナリーズで好きな人: " + favoritePerson, 398, currentY, 340, 30);
+    currentY += 30 + margin;
+
+    // アリーナ飯・好きな座席
     drawField("好きなアリーナ飯: " + arenaFood, 30, currentY, 340, 30);
-    drawField("好きな座席: " + favoriteSeat, 398, currentY, 340, 30); currentY += 50;
-    drawField("ハンナリーズ歴: " + years + "年", 398, currentY, 340, 30); currentY += 50;
+    drawField("好きな座席: " + favoriteSeat, 398, currentY, 340, 30);
+    currentY += 30 + margin;
 
-    drawMultilineField("京都を好きになったきっかけ: " + kyotoReason, 30, currentY, 708, 60); currentY += 80;
-    drawMultilineField("選手を好きになったきっかけ: " + playerReason, 30, currentY, 708, 60); currentY += 80;
+    // ハンナリーズ歴（幅調整済）
+    drawField("ハンナリーズ歴: " + years + "年", 398, currentY, 340, 30);
+    currentY += 30 + margin;
+
+    // 京都を好きになったきっかけ
+    drawMultilineField("京都を好きになったきっかけ: " + kyotoReason, 30, currentY, 708, 60);
+    currentY += 60 + margin;
+
+    // 選手を好きになったきっかけ
+    drawMultilineField("選手を好きになったきっかけ: " + playerReason, 30, currentY, 708, 60);
+    currentY += 60 + margin;
+
+    // フリースペース
     drawMultilineField("フリースペース: " + freeSpace, 30, currentY, 708, 100);
+    currentY += 100 + margin;
 
+    // QRとラベル
     if (xUrl) drawQR(xUrl, 550, 650, "X");
     if (instaUrl) drawQR(instaUrl, 630, 650, "Instagram");
   };
 }
 
-// 角丸の背景枠
+// 角丸背景
 function drawRoundedRect(ctx, x, y, width, height, radius) {
   ctx.beginPath();
   ctx.moveTo(x + radius, y);
@@ -128,7 +149,7 @@ function drawMultilineField(text, x, y, width, height) {
   ctx.fillText(line, x, lineY);
 }
 
-// QRコード描画＋ラベル
+// QRコード + ラベル
 function drawQR(text, x, y, label = "") {
   const tempDiv = document.createElement("div");
   const qr = new QRCode(tempDiv, {
@@ -149,7 +170,6 @@ function drawQR(text, x, y, label = "") {
   }
 }
 
-// QRラベル
 function drawQRLabel(label, x, y) {
   const fontSize = 14;
   ctx.font = `${fontSize}px Meiryo`;
@@ -169,7 +189,7 @@ function drawQRLabel(label, x, y) {
   ctx.textAlign = "start";
 }
 
-// 保存処理
+// 保存
 function downloadImage() {
   const link = document.createElement("a");
   link.download = "自己紹介カード.png";
