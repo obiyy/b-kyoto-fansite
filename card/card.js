@@ -29,7 +29,6 @@ function drawCard() {
   const kyotoReason = document.getElementById("kyoto-reason").value;
   const playerReason = document.getElementById("player-reason").value;
   const freeSpace = document.getElementById("free-space").value;
-  const extraFreeSpace = document.getElementById("extra-free-space").value;
   const xUrl = document.getElementById("x-url").value;
   const instaUrl = document.getElementById("insta-url").value;
 
@@ -50,14 +49,11 @@ function drawCard() {
     drawField("ハンナリーズで好きな人: " + favoritePerson, 398, 80, 340, 30);
     drawField("好きなアリーナ飯: " + arenaFood, 30, 130, 340, 30);
     drawField("好きな座席: " + favoriteSeat, 398, 130, 340, 30);
-    drawField("ハンナリーズ歴: " + years + "年", 600, 180, 140, 30); // ← 位置調整済み
+    drawField("ハンナリーズ歴: " + years + "年", 600, 180, 140, 30);
 
     drawMultilineField("京都を好きになったきっかけ: " + kyotoReason, 30, 230, 708, 60);
     drawMultilineField("選手を好きになったきっかけ: " + playerReason, 30, 310, 708, 60);
     drawMultilineField("フリースペース: " + freeSpace, 30, 390, 708, 100);
-
-    // 下部の余白に追加の自由記入欄
-    drawMultilineField("自由記入スペース: " + extraFreeSpace, 30, 620, 500, 100);
 
     if (xUrl) drawQR(xUrl, 550, 620, "X");
     if (instaUrl) drawQR(instaUrl, 630, 620, "Instagram");
@@ -73,45 +69,72 @@ function drawCard() {
   };
 }
 
-// 単行テキスト用の白背景＋テキスト描画
-function drawField(text, x, y, width, height) {
-  ctx.globalAlpha = 0.5;
-  ctx.fillStyle = "#ffffff";
-  ctx.fillRect(x, y, width, height);
-  ctx.globalAlpha = 1.0;
-  ctx.fillStyle = "#000000";
-  ctx.fillText(text, x + 8, y + 6);
+// 🔶 角丸の背景矩形を描く
+function drawRoundedRect(ctx, x, y, width, height, radius) {
+  ctx.beginPath();
+  ctx.moveTo(x + radius, y);
+  ctx.lineTo(x + width - radius, y);
+  ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+  ctx.lineTo(x + width, y + height - radius);
+  ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+  ctx.lineTo(x + radius, y + height);
+  ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+  ctx.lineTo(x, y + radius);
+  ctx.quadraticCurveTo(x, y, x + radius, y);
+  ctx.closePath();
+  ctx.fill();
 }
 
-// 複数行テキスト描画
-function drawMultilineField(text, x, y, width, height) {
-  ctx.globalAlpha = 0.5;
-  ctx.fillStyle = "#ffffff";
-  ctx.fillRect(x, y, width, height);
-  ctx.globalAlpha = 1.0;
-  ctx.fillStyle = "#000000";
+// ✅ 単行フィールド描画（角丸＋半透明＋余白）
+function drawField(text, x, y, width, height) {
+  const padding = 10;
+  const radius = 10;
+  const boxX = x - padding;
+  const boxY = y - padding;
+  const boxWidth = width + padding * 2;
+  const boxHeight = height + padding * 2;
 
+  ctx.fillStyle = "rgba(255,255,255,0.6)";
+  drawRoundedRect(ctx, boxX, boxY, boxWidth, boxHeight, radius);
+
+  ctx.fillStyle = "#000000";
+  ctx.fillText(text, x, y);
+}
+
+// ✅ 複数行フィールド描画（角丸＋半透明＋余白）
+function drawMultilineField(text, x, y, width, height) {
+  const padding = 10;
+  const radius = 10;
+  const boxX = x - padding;
+  const boxY = y - padding;
+  const boxWidth = width + padding * 2;
+  const boxHeight = height + padding * 2;
+
+  ctx.fillStyle = "rgba(255,255,255,0.6)";
+  drawRoundedRect(ctx, boxX, boxY, boxWidth, boxHeight, radius);
+
+  ctx.fillStyle = "#000000";
   const lineHeight = 22;
   const words = text.split(/(\s+|。|、|，|．|・|\/)/);
   let line = '';
-  let lineY = y + 6;
-  const maxWidth = width - 16;
+  let lineY = y;
+  const maxWidth = width;
 
   for (let n = 0; n < words.length; n++) {
     const testLine = line + words[n];
     const testWidth = ctx.measureText(testLine).width;
     if (testWidth > maxWidth && n > 0) {
-      ctx.fillText(line, x + 8, lineY);
+      ctx.fillText(line, x, lineY);
       line = words[n];
       lineY += lineHeight;
     } else {
       line = testLine;
     }
   }
-  ctx.fillText(line, x + 8, lineY);
+  ctx.fillText(line, x, lineY);
 }
 
-// QRコード描画＋ラベル
+// ✅ QRコード描画とラベル
 function drawQR(text, x, y, label = "") {
   const tempDiv = document.createElement("div");
   const qr = new QRCode(tempDiv, {
@@ -132,6 +155,7 @@ function drawQR(text, x, y, label = "") {
   }
 }
 
+// ✅ QRコード下のラベル
 function drawQRLabel(label, x, y) {
   const fontSize = 14;
   ctx.font = `${fontSize}px Meiryo`;
@@ -145,11 +169,13 @@ function drawQRLabel(label, x, y) {
   ctx.fillStyle = "#000000";
   ctx.fillRect(x + 32 - textWidth / 2 - padding, y - 2, textWidth + padding * 2, fontSize + 6);
   ctx.globalAlpha = 1.0;
+
   ctx.fillStyle = "#ffffff";
   ctx.fillText(label, x + 32, y);
   ctx.textAlign = "start";
 }
 
+// ✅ 保存ボタン押下時
 function downloadImage() {
   const link = document.createElement("a");
   link.download = "自己紹介カード.png";
