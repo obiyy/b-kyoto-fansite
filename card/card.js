@@ -21,7 +21,6 @@ function drawCard() {
   alert(bgImage.src);
 
   bgImage.onload = () => {
-    alert("3");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
 
