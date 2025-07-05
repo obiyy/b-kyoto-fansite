@@ -38,7 +38,7 @@ function drawCard() {
 
   const selectedBackground = getSelectedBackground();
   const bgImage = new Image();
-  bgImage.src = "images/" + selectedBackground;
+  bgImage.src = "" + selectedBackground;
 
   bgImage.onload = () => {
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
