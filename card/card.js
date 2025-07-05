@@ -17,7 +17,7 @@ function drawCard() {
   const message = document.getElementById("message").value;
   const bgImage = new Image();
   const selectedBG = document.getElementById("background-selector").value;
-  bgImage.src = "card/" + selectedBG;
+  bgImage.src = selectedBG;
   alert(bgImage.src);
 
   bgImage.onload = () => {
