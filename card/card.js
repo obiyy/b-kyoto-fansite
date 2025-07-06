@@ -61,37 +61,37 @@ function drawCard() {
 
     // 名前
     ctx.font = "30px Meiryo";
-    drawField("名前: "+name, 230, currentY, 508, 60);
-    currentY += 60 + margin;
+    drawField("名前: "+name, 230, currentY, 508, 50);
+    currentY += 50 + margin;
     // 好きな選手・好きな人
     ctx.font = "24px Meiryo";
-    drawMultilineField("好きな選手: ",favoritePlayer, 230, currentY, 508, 60, 20);
-    currentY += 60 + margin;
+    drawMultilineField("好きな選手: ",favoritePlayer, 230, currentY, 508, 70);
+    currentY += 70 + margin;
 
     // ハンナリーズ歴（幅調整済）
     ctx.font = "30px Meiryo";
-    drawField("ハンナリーズ歴: " + years + "年", 30, currentY, 340, 50);
+    drawField("ハンナリーズ歴: " + years + "年", 30, currentY, 340, 60);
 
     ctx.font = "18px Meiryo";
-    drawMultilineField("ハンナリーズで好きな人: ", favoritePerson, 398, currentY, 340, 50, 20);
-    currentY += 50 + margin;
+    drawMultilineField("ハンナリーズで好きな人: ", favoritePerson, 398, currentY, 340, 60);
+    currentY += 60 + margin;
 
     // アリーナ飯・好きな座席
-    drawMultilineField("好きなアリーナ飯: ", arenaFood, 30, currentY, 340, 50, 20);
-    drawMultilineField("好きな座席: ", favoriteSeat, 398, currentY, 340, 50, 20);
-    currentY += 50 + margin;
+    drawMultilineField("好きなアリーナ飯: ", arenaFood, 30, currentY, 340, 60);
+    drawMultilineField("好きな座席: ", favoriteSeat, 398, currentY, 340, 60);
+    currentY += 60 + margin;
     
     // 京都を好きになったきっかけ
-    drawMultilineField("京都を好きになったきっかけ: ", kyotoReason, 30, currentY, 708, 95, 20);
-    currentY += 95 + margin;
+    drawMultilineField("京都を好きになったきっかけ: ", kyotoReason, 30, currentY, 708, 90);
+    currentY += 90 + margin;
 
     // 選手を好きになったきっかけ
-    drawMultilineField("選手を好きになったきっかけ: ", playerReason, 30, currentY, 708, 95, 20);
-    currentY += 95 + margin;
+    drawMultilineField("選手を好きになったきっかけ: ", playerReason, 30, currentY, 708, 90);
+    currentY += 90 + margin;
 
     // フリースペース
-    drawMultilineField("フリースペース: ", freeSpace, 30, currentY, 448, 95, 20);
-    currentY += 95 + margin;
+    drawMultilineField("フリースペース: ", freeSpace, 30, currentY, 448, 100);
+    currentY += 100 + margin;
 
     // QRとラベル
     if (xUrl) drawQR(xUrl, 500, 640, "X");
@@ -122,7 +122,7 @@ function drawField(text, x, y, width, height) {
   ctx.fillStyle = "rgba(255,255,255,0.6)";
   drawRoundedRect(ctx, x - padding, y - padding, width + padding * 2, height + padding * 2, radius);
   ctx.fillStyle = "#000000";
-  ctx.fillText(text, x, y+20);
+  ctx.fillText(text, x, y+15);
 }
 
 // 複数行フィールド
