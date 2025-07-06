@@ -57,23 +57,23 @@ function drawCard() {
 
     // レイアウト調整用変数
     let currentY = 30;
-    const margin = 45;
+    const margin = 40;
 
     // 名前
-    drawField("名前: " + name, 230, currentY, 508, 30);
-    currentY += 30 + margin;
+    drawField("名前: " + name, 230, currentY, 508, 50);
+    currentY += 50 + margin;
     // 好きな選手・好きな人
-    drawField("好きな選手: " + favoritePlayer, 230, currentY, 508, 30);
-    currentY += 30 + margin + 30;
+    drawField("好きな選手: " + favoritePlayer, 230, currentY, 508, 50);
+    currentY += 50 + margin + 30;
 
     // ハンナリーズ歴（幅調整済）
-    drawField("ハンナリーズ歴: ¥n" + years + "年", 30, currentY, 340, 50);
-    drawField("ハンナリーズで好きな人: ¥n" + favoritePerson, 398, currentY, 340, 50);
+    drawField("ハンナリーズ歴: " + years + "年", 30, currentY, 340, 50);
+    drawField("ハンナリーズで好きな人: ," + favoritePerson, 398, currentY, 340, 50);
     currentY += 50 + margin;
 
     // アリーナ飯・好きな座席
-    drawField("好きなアリーナ飯: ¥n" + arenaFood, 30, currentY, 340, 50);
-    drawField("好きな座席: ¥n" + favoriteSeat, 398, currentY, 340, 50);
+    drawMultilineField("好きなアリーナ飯: ," + arenaFood, 30, currentY, 340, 50);
+    drawMultilineField("好きな座席: ," + favoriteSeat, 398, currentY, 340, 50);
     currentY += 50 + margin;
 
     ctx.font = "18px Meiryo";
@@ -91,8 +91,8 @@ function drawCard() {
     currentY += 100 + margin;
 
     // QRとラベル
-    if (xUrl) drawQR(xUrl, 550, 650, "X");
-    if (instaUrl) drawQR(instaUrl, 680, 650, "Instagram");
+    if (xUrl) drawQR(xUrl, 500, 630, "X");
+    if (instaUrl) drawQR(instaUrl, 630, 630, "Instagram");
   };
 }
 
@@ -163,11 +163,11 @@ function drawQR(text, x, y, label = "") {
 
   qrImg.onload = () => {
     ctx.drawImage(qrImg, x, y, 100, 100);
-    drawQRLabel(label, x, y + 70);
+    drawQRLabel(label, x, y + 106);
   };
   if (qrImg.complete) {
-    ctx.drawImage(qrImg, x, y, 64, 64);
-    drawQRLabel(label, x, y + 70);
+    ctx.drawImage(qrImg, x, y, 100, 100);
+    drawQRLabel(label, x, y + 106);
   }
 }
 
