@@ -41,21 +41,36 @@
       <textarea id="kyoto-reason" placeholder="京都を好きになったきっかけ（115文字）" maxlength="115"></textarea>
       <textarea id="player-reason" placeholder="選手を好きになったきっかけ（115文字）" maxlength="115"></textarea>
       <textarea id="free-space" placeholder="フリースペース（95文字）" maxlength="95"></textarea>
-	<!-- 背景画像選択（サムネイル） -->
-	<div id="background-options">
-	<label><input type="radio" name="background" value="card1.jpg">
-		<img src="card1.jpg" width="100"></label>
-	<label><input type="radio" name="background" value="card2.jpg">
-		<img src="card2.jpg" width="100"></label>
-	<label><input type="radio" name="background" value="card3.jpg">
-		<img src="card3.jpg" width="100"></label>
-	<label><input type="radio" name="background" value="card4.jpg">
-		<img src="card4.jpg" width="100"></label>
-	<label><input type="radio" name="background" value="card5.jpg">
-		<img src="card5.jpg" width="100"></label>
-	<label><input type="radio" name="background" value="card6.jpg">
-		<img src="card6.jpg" width="100"></label>
-	</div>
+
+      <div class="background-selector">
+        <h3>背景を選んでください</h3>
+        <div class="background-options">
+          <label class="bg-option">
+            <input type="radio" name="background" value="card1.jpg" checked>
+            <img src="card1.jpg" alt="背景1">
+          </label>
+          <label class="bg-option">
+            <input type="radio" name="background" value="card2.jpg" checked>
+            <img src="card2.jpg" alt="背景2">
+          </label>
+          <label class="bg-option">
+            <input type="radio" name="background" value="card3.jpg" checked>
+            <img src="card3.jpg" alt="背景3">
+          </label>
+          <label class="bg-option">
+            <input type="radio" name="background" value="card4.jpg" checked>
+            <img src="card4.jpg" alt="背景4">
+          </label>
+          <label class="bg-option">
+            <input type="radio" name="background" value="card5.jpg" checked>
+            <img src="card5.jpg" alt="背景5">
+          </label>
+          <label class="bg-option">
+            <input type="radio" name="background" value="card6.jpg" checked>
+            <img src="card6.jpg" alt="背景6">
+          </label>
+        </div>
+      </div>
       <label>自由画像アップロード：(縦横1:1の画像)
         <input type="file" id="custom-image" accept="image/*">
       </label>

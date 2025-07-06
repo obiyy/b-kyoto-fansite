@@ -83,11 +83,11 @@ function drawCard() {
     
     // 京都を好きになったきっかけ
     drawMultilineField("京都を好きになったきっかけ: ", kyotoReason, 30, currentY, 708, 90);
-    currentY += 90 + margin;
+    currentY += 85 + margin;
 
     // 選手を好きになったきっかけ
     drawMultilineField("選手を好きになったきっかけ: ", playerReason, 30, currentY, 708, 90);
-    currentY += 90 + margin;
+    currentY += 85 + margin;
 
     // フリースペース
     drawMultilineField("フリースペース: ", freeSpace, 30, currentY, 448, 100);
