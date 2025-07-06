@@ -70,12 +70,12 @@ function drawCard() {
     drawField("ハンナリーズ歴: " + years + "年", 30, currentY, 340, 50);
 
     ctx.font = "18px Meiryo";
-    drawField("ハンナリーズで好きな人: ," + favoritePerson, 398, currentY, 340, 50);
+    drawField("ハンナリーズで好きな人: /" + favoritePerson, 398, currentY, 340, 50);
     currentY += 50 + margin;
 
     // アリーナ飯・好きな座席
-    drawMultilineField("好きなアリーナ飯: ¥n" + arenaFood, 30, currentY, 340, 50);
-    drawMultilineField("好きな座席: ¥n" + favoriteSeat, 398, currentY, 340, 50);
+    drawMultilineField("好きなアリーナ飯: /" + arenaFood, 30, currentY, 340, 50);
+    drawMultilineField("好きな座席: /" + favoriteSeat, 398, currentY, 340, 50);
     currentY += 50 + margin;
     
     // 京都を好きになったきっかけ
@@ -91,8 +91,8 @@ function drawCard() {
     currentY += 95 + margin;
 
     // QRとラベル
-    if (xUrl) drawQR(xUrl, 500, 630, "X");
-    if (instaUrl) drawQR(instaUrl, 630, 630, "Instagram");
+    if (xUrl) drawQR(xUrl, 500, 640, "X");
+    if (instaUrl) drawQR(instaUrl, 630, 640, "Instagram");
   };
 }
 
@@ -162,12 +162,12 @@ function drawQR(text, x, y, label = "") {
   const qrImg = tempDiv.querySelector("img");
 
   qrImg.onload = () => {
-    ctx.drawImage(qrImg, x, y, 100, 100);
-    drawQRLabel(label, x, y + 106);
+    ctx.drawImage(qrImg, x, y, 95, 95);
+    drawQRLabel(label, x, y + 101);
   };
   if (qrImg.complete) {
-    ctx.drawImage(qrImg, x, y, 100, 100);
-    drawQRLabel(label, x, y + 106);
+    ctx.drawImage(qrImg, x, y, 95, 95);
+    drawQRLabel(label, x, y + 101);
   }
 }
 
