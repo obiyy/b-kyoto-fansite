@@ -57,7 +57,7 @@ function drawCard() {
 
     // レイアウト調整用変数
     let currentY = 30;
-    const margin = 20;
+    const margin = 50;
 
     // 名前
     drawField("名前: " + name, 170, currentY, 568, 30);
