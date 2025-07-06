@@ -141,7 +141,8 @@ function drawMultilineField(title, text, x, y, width, height, linelength) {
   // タイトル
   ctx.fillText(title, x, lineY);
   lineY += lineHeight;
-alert(words);
+alert(maxWidth);
+alert(words.length);
   for (let n = 0; n < words.length; n++) {
     const testLine = line + words[n];
     const testWidth = ctx.measureText(testLine).width;
@@ -151,11 +152,15 @@ alert(words);
       ctx.fillText(line, x, lineY);
       line = words[n];
       lineY += lineHeight;
+      ctx.fillText(line, x, lineY);
     } else {
       line = testLine;
+      ctx.fillText(line, x, lineY);
     }
   }
-  ctx.fillText(line, x, lineY);
+  if (0 >= words.length) {
+    ctx.fillText(line, x, lineY);
+  }
 }
 
 // QRコード + ラベル
