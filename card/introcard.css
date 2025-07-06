@@ -85,6 +85,22 @@ canvas {
   box-shadow: 0 0 8px rgba(0, 123, 255, 0.6);
 }
 
+/* --- ハンバーガー用初期非表示 --- */
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* 通常表示（PC） */
+.nav-menu {
+  display: flex;
+  gap: 1rem;
+}
+
 /* モバイル対応 */
 @media (max-width: 600px) {
   input, select, button {
