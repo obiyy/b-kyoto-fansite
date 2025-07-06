@@ -85,61 +85,14 @@ canvas {
   box-shadow: 0 0 8px rgba(0, 123, 255, 0.6);
 }
 
-/* --- ハンバーガー用初期非表示 --- */
-.menu-toggle {
-  display: none;
-  background: none;
-  border: none;
-  font-size: 1.8rem;
-  color: #fff;
-  cursor: pointer;
-}
-
-/* 通常表示（PC） */
-.nav-menu {
-  display: flex;
-  gap: 1rem;
-}
-
 /* モバイル対応 */
 @media (max-width: 600px) {
-  input, select, button {
+  input, textarea, select, button {
     width: 100%;
     margin: 8px 0;
   }
 
   form {
     padding: 15px;
-  }
-}
-
-@media (max-width: 768px) {
-  /* ハンバーガーを表示 */
-  .menu-toggle {
-    display: block;
-  }
-
-  /* ナビは縦並び・非表示から開始 */
-  .nav-menu {
-    display: none;
-    flex-direction: column;
-    position: absolute;
-    top: 60px;
-    right: 1rem;
-    background: #ffffff;
-    border: 1px solid #ccc;
-    padding: 1rem;
-    z-index: 10;
-  }
-
-  .nav-menu a {
-    color: #0088a2;
-    padding: 0.5rem 0;
-    text-decoration: none;
-    font-size: 1rem;
-  }
-
-  .nav-menu.show {
-    display: flex;
   }
 }
