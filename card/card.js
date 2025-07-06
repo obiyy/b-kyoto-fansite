@@ -79,16 +79,16 @@ function drawCard() {
     currentY += 50 + margin;
     
     // 京都を好きになったきっかけ
-    drawMultilineField("京都を好きになったきっかけ: " + kyotoReason, 30, currentY, 708, 100);
-    currentY +=100 + margin;
+    drawMultilineField("京都を好きになったきっかけ: " + kyotoReason, 30, currentY, 708, 95);
+    currentY += 95 + margin;
 
     // 選手を好きになったきっかけ
-    drawMultilineField("選手を好きになったきっかけ: " + playerReason, 30, currentY, 708, 100);
-    currentY += 100 + margin;
+    drawMultilineField("選手を好きになったきっかけ: " + playerReason, 30, currentY, 708, 95);
+    currentY += 95 + margin;
 
     // フリースペース
-    drawMultilineField("フリースペース: " + freeSpace, 30, currentY, 448, 100);
-    currentY += 100 + margin;
+    drawMultilineField("フリースペース: " + freeSpace, 30, currentY, 448, 95);
+    currentY += 95 + margin;
 
     // QRとラベル
     if (xUrl) drawQR(xUrl, 500, 630, "X");

@@ -6,12 +6,6 @@ body {
   color: #333;
 }
 
-h1 {
-  text-align: center;
-  color: #1e90ff;
-  margin-top: 20px;
-}
-
 form {
   max-width: 600px;
   margin: 20px auto;
@@ -21,7 +15,7 @@ form {
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
-input, select {
+input, select, textarea {
   width: 90%;
   padding: 10px;
   margin: 10px 0;
