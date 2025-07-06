@@ -51,31 +51,33 @@ function drawCard() {
       }
     }
 
-    ctx.font = "18px Meiryo";
+    ctx.font = "24px Meiryo";
     ctx.textBaseline = "top";
     ctx.fillStyle = "#000000";
 
     // レイアウト調整用変数
     let currentY = 30;
-    const margin = 50;
+    const margin = 45;
 
     // 名前
     drawField("名前: " + name, 230, currentY, 508, 30);
     currentY += 30 + margin;
     // 好きな選手・好きな人
     drawField("好きな選手: " + favoritePlayer, 230, currentY, 508, 30);
-    currentY += 30 + margin;
+    currentY += 30 + margin + 30;
 
     // ハンナリーズ歴（幅調整済）
-    drawField("ハンナリーズ歴: " + years + "年", 30, currentY, 340, 30);
-    drawField("ハンナリーズで好きな人: " + favoritePerson, 398, currentY, 340, 30);
-    currentY += 30 + margin;
+    drawField("ハンナリーズ歴: ¥n" + years + "年", 30, currentY, 340, 50);
+    drawField("ハンナリーズで好きな人: ¥n" + favoritePerson, 398, currentY, 340, 50);
+    currentY += 50 + margin;
 
     // アリーナ飯・好きな座席
-    drawField("好きなアリーナ飯: " + arenaFood, 30, currentY, 340, 30);
-    drawField("好きな座席: " + favoriteSeat, 398, currentY, 340, 30);
-    currentY += 30 + margin;
+    drawField("好きなアリーナ飯: ¥n" + arenaFood, 30, currentY, 340, 50);
+    drawField("好きな座席: ¥n" + favoriteSeat, 398, currentY, 340, 50);
+    currentY += 50 + margin;
 
+    ctx.font = "18px Meiryo";
+    
     // 京都を好きになったきっかけ
     drawMultilineField("京都を好きになったきっかけ: " + kyotoReason, 30, currentY, 708, 100);
     currentY +=100 + margin;
@@ -153,14 +155,14 @@ function drawQR(text, x, y, label = "") {
   const tempDiv = document.createElement("div");
   const qr = new QRCode(tempDiv, {
     text: text,
-    width: 150,
-    height: 150,
+    width: 100,
+    height: 100,
     correctLevel: QRCode.CorrectLevel.H
   });
   const qrImg = tempDiv.querySelector("img");
 
   qrImg.onload = () => {
-    ctx.drawImage(qrImg, x, y, 64, 64);
+    ctx.drawImage(qrImg, x, y, 100, 100);
     drawQRLabel(label, x, y + 70);
   };
   if (qrImg.complete) {
