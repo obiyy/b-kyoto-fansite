@@ -61,7 +61,7 @@ function drawCard() {
 
     // 名前
     ctx.font = "30px Meiryo";
-    drawMultilineField("名前: ",name, 230, currentY, 508, 60, 20);
+    drawField("名前: "+name, 230, currentY, 508, 60);
     currentY += 60 + margin;
     // 好きな選手・好きな人
     ctx.font = "24px Meiryo";
@@ -122,7 +122,7 @@ function drawField(text, x, y, width, height) {
   ctx.fillStyle = "rgba(255,255,255,0.6)";
   drawRoundedRect(ctx, x - padding, y - padding, width + padding * 2, height + padding * 2, radius);
   ctx.fillStyle = "#000000";
-  ctx.fillText(text, x, y);
+  ctx.fillText(text, x, y+20);
 }
 
 // 複数行フィールド
@@ -141,10 +141,12 @@ function drawMultilineField(title, text, x, y, width, height, linelength) {
   // タイトル
   ctx.fillText(title, x, lineY);
   lineY += lineHeight;
-
+alert(words);
   for (let n = 0; n < words.length; n++) {
     const testLine = line + words[n];
     const testWidth = ctx.measureText(testLine).width;
+    alert("a");
+    alert(testWidth);
     if (testWidth > maxWidth && n > 0) {
       ctx.fillText(line, x, lineY);
       line = words[n];
