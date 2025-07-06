@@ -17,7 +17,7 @@
     <button class="menu-toggle" aria-label="メニューを開く">
       ☰
     </button>
-    
+
     <!-- ナビゲーション -->
     <nav class="nav-menu">
       <a href="https://kyoto-fansite.netlify.app/schedule.html">Schedule</a>
@@ -32,17 +32,19 @@
   <section>
     <h2>京都ハンナリーズ 自己紹介カードメーカー</h2>
     <p>入力してダウンロードするだけ京都ハンナリーズの自己紹介カードを作成！<br>
-    背景イラスト提供：<a href="https://x.com/hrrmiau">miharuさん</a> ※Chrome,Safari推奨</p>
+    背景イラスト：<a href="https://x.com/hrrmiau">miharuさん</a> ※Chrome,Safari推奨</p>
   </section>
     <form id="input-form">
-      <input type="text" id="name" placeholder="名前（14文字）" maxlength="14">
-      <input type="text" id="favorite-player" placeholder="好きな選手（40文字）" maxlength="40">
-      <input type="text" id="favorite-person" placeholder="ハンナリーズで好きな人（35文字）" maxlength="35">
-      <input type="text" id="arena-food" placeholder="好きなアリーナ飯（35文字）" maxlength="35">
-      <input type="number" id="years" placeholder="ハンナリーズ歴（年）" min="0" max="999" maxlength="3">
-      <input type="text" id="favorite-seat" placeholder="好きな座席（35文字）" maxlength="35">
-      <textarea id="kyoto-reason" placeholder="京都を好きになったきっかけ（115文字）" maxlength="115"></textarea>
+      <p>名前（14文字）</p><input type="text" id="name" placeholder="名前（14文字）" maxlength="14">
+      <p>好きな選手（40文字）</p><input type="text" id="favorite-player" placeholder="好きな選手（40文字）" maxlength="40">
+      <p>ハンナリーズで好きな人（35文字）</p><input type="text" id="favorite-person" placeholder="ハンナリーズで好きな人（35文字）" maxlength="35">
+      <p>好きなアリーナ飯（35文字）</p><input type="text" id="arena-food" placeholder="好きなアリーナ飯（35文字）" maxlength="35">
+      <p>ハンナリーズ歴(数字のみ)</p><input type="number" id="years" placeholder="ハンナリーズ歴（年）" min="0" max="999" maxlength="3">
+      <p>好きな座席（35文字）</p><input type="text" id="favorite-seat" placeholder="好きな座席（35文字）" maxlength="35">
+      <p>京都を好きになったきっかけ（115文字）</p><textarea id="kyoto-reason" placeholder="京都を好きになったきっかけ（115文字）" maxlength="115"></textarea>
+      <p>選手を好きになったきっかけ（115文字）</p>
       <textarea id="player-reason" placeholder="選手を好きになったきっかけ（115文字）" maxlength="115"></textarea>
+      <p>フリースペース（95文字）</p>
       <textarea id="free-space" placeholder="フリースペース（95文字）" maxlength="95"></textarea>
 
       <div class="background-selector">
