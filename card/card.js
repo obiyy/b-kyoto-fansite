@@ -43,10 +43,10 @@ function drawCard() {
     // アップロード画像（左上）
     if (uploadedImage) {
       if (uploadedImage.complete) {
-        ctx.drawImage(uploadedImage, 30, 30, 180, 180);
+        ctx.drawImage(uploadedImage, 20, 20, 180, 180);
       } else {
         uploadedImage.onload = () => {
-          ctx.drawImage(uploadedImage, 30, 30, 180, 180);
+          ctx.drawImage(uploadedImage, 20, 20, 180, 180);
         };
       }
     }
@@ -57,26 +57,26 @@ function drawCard() {
 
     // レイアウト調整用変数
     let currentY = 30;
-    const margin = 40;
+    const margin = 35;
 
     // 名前
-    drawField("名前: " + name, 230, currentY, 508, 50);
-    currentY += 50 + margin;
+    drawField("名前: " + name, 230, currentY, 508, 60);
+    currentY += 60 + margin;
     // 好きな選手・好きな人
-    drawField("好きな選手: " + favoritePlayer, 230, currentY, 508, 50);
-    currentY += 50 + margin + 30;
+    drawField("好きな選手: " + favoritePlayer, 230, currentY, 508, 60);
+    currentY += 60 + margin + 30;
 
     // ハンナリーズ歴（幅調整済）
     drawField("ハンナリーズ歴: " + years + "年", 30, currentY, 340, 50);
+
+    ctx.font = "18px Meiryo";
     drawField("ハンナリーズで好きな人: ," + favoritePerson, 398, currentY, 340, 50);
     currentY += 50 + margin;
 
     // アリーナ飯・好きな座席
-    drawMultilineField("好きなアリーナ飯: ," + arenaFood, 30, currentY, 340, 50);
-    drawMultilineField("好きな座席: ," + favoriteSeat, 398, currentY, 340, 50);
+    drawMultilineField("好きなアリーナ飯: ¥n" + arenaFood, 30, currentY, 340, 50);
+    drawMultilineField("好きな座席: ¥n" + favoriteSeat, 398, currentY, 340, 50);
     currentY += 50 + margin;
-
-    ctx.font = "18px Meiryo";
     
     // 京都を好きになったきっかけ
     drawMultilineField("京都を好きになったきっかけ: " + kyotoReason, 30, currentY, 708, 100);
