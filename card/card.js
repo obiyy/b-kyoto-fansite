@@ -134,32 +134,14 @@ function drawMultilineField(title, text, x, y, width, height, linelength) {
   ctx.fillStyle = "#000000";
 
   const lineHeight = 22;
-  const words = text.split(/(\s+|。|、|，|．|・|\/)/);
-  let line = '';
   let lineY = y;
-  const maxWidth = width;
   // タイトル
   ctx.fillText(title, x, lineY);
   lineY += lineHeight;
-alert(maxWidth);
-alert(words.length);
-  for (let n = 0; n < words.length; n++) {
-    const testLine = line + words[n];
-    const testWidth = ctx.measureText(testLine).width;
-    alert("a");
-    alert(testWidth);
-    if (testWidth > maxWidth && n > 0) {
-      ctx.fillText(line, x, lineY);
-      line = words[n];
+  const aStrList = MkText(ctx, text, width);
+  for (let n = 0; n < aStrList.length; n++) {
+      ctx.fillText(aStrList[n], x, lineY);
       lineY += lineHeight;
-      ctx.fillText(line, x, lineY);
-    } else {
-      line = testLine;
-      ctx.fillText(line, x, lineY);
-    }
-  }
-  if (0 >= words.length) {
-    ctx.fillText(line, x, lineY);
   }
 }
 
@@ -209,4 +191,43 @@ function downloadImage() {
   link.download = "自己紹介カード.png";
   link.href = canvas.toDataURL("image/png");
   link.click();
+}
+
+function MkText( pCanvas, pStr, pWidth )
+{
+    var aLen = pStr.length; 
+    var aStrList = [];
+    var aTmp = "";
+ 
+    if ( aLen < 1 )
+    {
+        return aStrList;
+    }
+ 
+    for ( var aCnt = 0; aCnt < aLen; aCnt++ )
+    {
+        var aChar = pStr.charAt(aCnt);
+        if ( aChar == "\n" )
+        {
+            aStrList.push( aTmp );
+            aTmp = "";
+            continue;
+        }
+ 
+        if ( pCanvas.measureText( aTmp + aChar ).width <= pWidth )
+        {
+            aTmp += aChar;
+        }
+        else
+        {
+            aStrList.push( aTmp );
+            aTmp = aChar;
+        }
+    }
+    if ( aTmp.length > 0 )
+    {
+        aStrList.push( aTmp );
+    }
+ 
+    return aStrList;
 }
