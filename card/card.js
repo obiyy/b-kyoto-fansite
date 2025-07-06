@@ -70,24 +70,24 @@ function drawCard() {
     drawField("ハンナリーズ歴: " + years + "年", 30, currentY, 340, 50);
 
     ctx.font = "18px Meiryo";
-    drawField("ハンナリーズで好きな人: /" + favoritePerson, 398, currentY, 340, 50);
+    drawField("ハンナリーズで好きな人: 。" + favoritePerson, 398, currentY, 340, 50);
     currentY += 50 + margin;
 
     // アリーナ飯・好きな座席
-    drawMultilineField("好きなアリーナ飯: /" + arenaFood, 30, currentY, 340, 50);
-    drawMultilineField("好きな座席: /" + favoriteSeat, 398, currentY, 340, 50);
+    drawMultilineField("好きなアリーナ飯: 。" + arenaFood, 30, currentY, 340, 50);
+    drawMultilineField("好きな座席: 。" + favoriteSeat, 398, currentY, 340, 50);
     currentY += 50 + margin;
     
     // 京都を好きになったきっかけ
-    drawMultilineField("京都を好きになったきっかけ: " + kyotoReason, 30, currentY, 708, 95);
+    drawMultilineField("京都を好きになったきっかけ: 。" + kyotoReason, 30, currentY, 708, 95);
     currentY += 95 + margin;
 
     // 選手を好きになったきっかけ
-    drawMultilineField("選手を好きになったきっかけ: " + playerReason, 30, currentY, 708, 95);
+    drawMultilineField("選手を好きになったきっかけ: 。" + playerReason, 30, currentY, 708, 95);
     currentY += 95 + margin;
 
     // フリースペース
-    drawMultilineField("フリースペース: " + freeSpace, 30, currentY, 448, 95);
+    drawMultilineField("フリースペース: 。" + freeSpace, 30, currentY, 448, 95);
     currentY += 95 + margin;
 
     // QRとラベル
@@ -182,11 +182,11 @@ function drawQRLabel(label, x, y) {
 
   ctx.globalAlpha = 0.6;
   ctx.fillStyle = "#000000";
-  ctx.fillRect(x + 32 - textWidth / 2 - padding, y - 2, textWidth + padding * 2, fontSize + 6);
+  ctx.fillRect(x + 50 - textWidth / 2 - padding, y - 2, textWidth + padding * 2, fontSize + 6);
   ctx.globalAlpha = 1.0;
 
   ctx.fillStyle = "#ffffff";
-  ctx.fillText(label, x + 32, y);
+  ctx.fillText(label, x + 50, y);
   ctx.textAlign = "start";
 }
 
