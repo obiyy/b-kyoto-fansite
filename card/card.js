@@ -160,9 +160,8 @@ function drawQR(text, x, y, label = "") {
     ctx.drawImage(qrImg, x, y, 95, 95);
     drawQRLabel(label, x, y + 101);
   };
-  if (qrImg.complete) {
-    ctx.drawImage(qrImg, x, y, 95, 95);
-    drawQRLabel(label, x, y + 101);
+  if (qrImg.complete && qrImg.naturalHeight !== 0) {
+    qrImg.onload();
   }
 }
 
