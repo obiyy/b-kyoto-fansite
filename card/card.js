@@ -43,10 +43,10 @@ function drawCard() {
     // アップロード画像（左上）
     if (uploadedImage) {
       if (uploadedImage.complete) {
-        ctx.drawImage(uploadedImage, 30, 30, 120, 120);
+        ctx.drawImage(uploadedImage, 30, 30, 240, 240);
       } else {
         uploadedImage.onload = () => {
-          ctx.drawImage(uploadedImage, 30, 30, 120, 120);
+          ctx.drawImage(uploadedImage, 30, 30, 240, 240);
         };
       }
     }
@@ -62,32 +62,38 @@ function drawCard() {
     // 名前
     drawField("名前: " + name, 170, currentY, 568, 30);
     currentY += 30 + margin;
-
+alert(currentY);
     // 好きな選手・好きな人
     drawField("好きな選手: " + favoritePlayer, 30, currentY, 340, 30);
     drawField("ハンナリーズで好きな人: " + favoritePerson, 398, currentY, 340, 30);
     currentY += 30 + margin;
+alert(currentY);
 
     // アリーナ飯・好きな座席
     drawField("好きなアリーナ飯: " + arenaFood, 30, currentY, 340, 30);
     drawField("好きな座席: " + favoriteSeat, 398, currentY, 340, 30);
     currentY += 30 + margin;
+alert(currentY);
 
     // ハンナリーズ歴（幅調整済）
     drawField("ハンナリーズ歴: " + years + "年", 398, currentY, 340, 30);
     currentY += 30 + margin;
+alert(currentY);
 
     // 京都を好きになったきっかけ
     drawMultilineField("京都を好きになったきっかけ: " + kyotoReason, 30, currentY, 708, 60);
     currentY += 60 + margin;
+alert(currentY);
 
     // 選手を好きになったきっかけ
     drawMultilineField("選手を好きになったきっかけ: " + playerReason, 30, currentY, 708, 60);
     currentY += 60 + margin;
+alert(currentY);
 
     // フリースペース
     drawMultilineField("フリースペース: " + freeSpace, 30, currentY, 708, 100);
     currentY += 100 + margin;
+alert(currentY);
 
     // QRとラベル
     if (xUrl) drawQR(xUrl, 550, 650, "X");
