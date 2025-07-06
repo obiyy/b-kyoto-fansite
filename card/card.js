@@ -60,14 +60,14 @@ function drawCard() {
     const margin = 50;
 
     // 名前
-    drawField("名前: " + name, 298, currentY, 440, 30);
+    drawField("名前: " + name, 230, currentY, 508, 30);
     currentY += 30 + margin;
-    // ハンナリーズ歴（幅調整済）
-    drawField("ハンナリーズ歴: " + years + "年", 298, currentY, 440, 30);
+    // 好きな選手・好きな人
+    drawField("好きな選手: " + favoritePlayer, 230, currentY, 508, 30);
     currentY += 30 + margin;
 
-    // 好きな選手・好きな人
-    drawField("好きな選手: " + favoritePlayer, 30, currentY, 340, 30);
+    // ハンナリーズ歴（幅調整済）
+    drawField("ハンナリーズ歴: " + years + "年", 30, currentY, 340, 30);
     drawField("ハンナリーズで好きな人: " + favoritePerson, 398, currentY, 340, 30);
     currentY += 30 + margin;
 
@@ -78,19 +78,19 @@ function drawCard() {
 
     // 京都を好きになったきっかけ
     drawMultilineField("京都を好きになったきっかけ: " + kyotoReason, 30, currentY, 708, 100);
-    currentY +=160 + margin;
+    currentY +=100 + margin;
 
     // 選手を好きになったきっかけ
     drawMultilineField("選手を好きになったきっかけ: " + playerReason, 30, currentY, 708, 100);
     currentY += 100 + margin;
 
     // フリースペース
-    drawMultilineField("フリースペース: " + freeSpace, 30, currentY, 508, 100);
+    drawMultilineField("フリースペース: " + freeSpace, 30, currentY, 448, 100);
     currentY += 100 + margin;
 
     // QRとラベル
     if (xUrl) drawQR(xUrl, 550, 650, "X");
-    if (instaUrl) drawQR(instaUrl, 630, 650, "Instagram");
+    if (instaUrl) drawQR(instaUrl, 680, 650, "Instagram");
   };
 }
 
@@ -153,8 +153,8 @@ function drawQR(text, x, y, label = "") {
   const tempDiv = document.createElement("div");
   const qr = new QRCode(tempDiv, {
     text: text,
-    width: 100,
-    height: 100,
+    width: 150,
+    height: 150,
     correctLevel: QRCode.CorrectLevel.H
   });
   const qrImg = tempDiv.querySelector("img");
