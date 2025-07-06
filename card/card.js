@@ -70,24 +70,24 @@ function drawCard() {
     drawField("ハンナリーズ歴: " + years + "年", 30, currentY, 340, 50);
 
     ctx.font = "18px Meiryo";
-    drawField("ハンナリーズで好きな人: 。" + favoritePerson, 398, currentY, 340, 50);
+    drawMultilineField("ハンナリーズで好きな人: ", favoritePerson, 398, currentY, 340, 50, 20);
     currentY += 50 + margin;
 
     // アリーナ飯・好きな座席
-    drawMultilineField("好きなアリーナ飯: 。" + arenaFood, 30, currentY, 340, 50);
-    drawMultilineField("好きな座席: 。" + favoriteSeat, 398, currentY, 340, 50);
+    drawMultilineField("好きなアリーナ飯: ", arenaFood, 30, currentY, 340, 50, 20);
+    drawMultilineField("好きな座席: ", favoriteSeat, 398, currentY, 340, 50, 20);
     currentY += 50 + margin;
     
     // 京都を好きになったきっかけ
-    drawMultilineField("京都を好きになったきっかけ: 。" + kyotoReason, 30, currentY, 708, 95);
+    drawMultilineField("京都を好きになったきっかけ: ", kyotoReason, 30, currentY, 708, 95, 20);
     currentY += 95 + margin;
 
     // 選手を好きになったきっかけ
-    drawMultilineField("選手を好きになったきっかけ: 。" + playerReason, 30, currentY, 708, 95);
+    drawMultilineField("選手を好きになったきっかけ: ", playerReason, 30, currentY, 708, 95, 20);
     currentY += 95 + margin;
 
     // フリースペース
-    drawMultilineField("フリースペース: 。" + freeSpace, 30, currentY, 448, 95);
+    drawMultilineField("フリースペース: 。", freeSpace, 30, currentY, 448, 95, 20);
     currentY += 95 + margin;
 
     // QRとラベル
@@ -123,7 +123,7 @@ function drawField(text, x, y, width, height) {
 }
 
 // 複数行フィールド
-function drawMultilineField(text, x, y, width, height) {
+function drawMultilineField(title, text, x, y, width, height, linelength) {
   const padding = 10;
   const radius = 10;
   ctx.fillStyle = "rgba(255,255,255,0.6)";
@@ -135,6 +135,9 @@ function drawMultilineField(text, x, y, width, height) {
   let line = '';
   let lineY = y;
   const maxWidth = width;
+  // タイトル
+  ctx.fillText(title, x, lineY);
+  lineY += lineHeight;
 
   for (let n = 0; n < words.length; n++) {
     const testLine = line + words[n];
