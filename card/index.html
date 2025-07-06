@@ -6,8 +6,26 @@
   <title>自己紹介カードメーカー（ハンナリーズ風）</title>
   <link rel="stylesheet" href="../styles.css">
   <link rel="stylesheet" href="./introcard.css">
+    <script async src="../script.js"></script>
+
 </head>
 <body>
+  <header>
+    <div class="logo"><a href="https://kyoto-fansite.netlify.app/">HANNARYZ FAN SITE</a></div>
+    <!-- ハンバーガーアイコン -->
+    <button class="menu-toggle" aria-label="メニューを開く">
+      ☰
+    </button>
+
+    <!-- ナビゲーション -->
+    <nav class="nav-menu">
+      <a href="https://kyoto-fansite.netlify.app/schedule.html">Schedule</a>
+      <a href="https://kyoto-fansite.netlify.app/youtube.html">Videos</a>
+      <a href="https://kyoto-fansite.netlify.app/#music">プレイリスト</a>
+      <a href="https://kyoto-fansite.netlify.app/card/">自己紹介カード</a>
+      <a href="https://kyoto-fansite.netlify.app/game/">ミニゲーム</a>
+    </nav> 
+  </header>
   <header><h1>京都ハンナリーズ 自己紹介カードメーカー</h1></header>
   <main class="intro-card-section">
     <p>入力してダウンロードするだけ京都ハンナリーズの自己紹介カードを作成！<br>
@@ -52,7 +70,10 @@
     <canvas id="cardCanvas" width="600" height="800"></canvas>
   </main>
 
-  <footer><p>&copy; 2025 Kyoto BCardMaker by オビー</p></footer>
+  <footer>
+    <p>&copy; 2025 京都ハンナリーズ好きが作ったサイト</p>
+    <p>問い合わせ先：<a href="https://x.com/obiyy">@obiyy</a></p>
+  </footer>
 
   <script src="qrcode.min.js"></script>
   <script src="card.js"></script>

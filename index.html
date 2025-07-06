@@ -17,15 +17,15 @@
   <meta property="og:description" content="京都ハンナリーズ好きが作ったサイト">
   <link rel="stylesheet" href="./styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3840312371391662"
-     crossorigin="anonymous"></script>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-8MB6TQHHFH"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-8MB6TQHHFH');
-</script>
+  <script async src="./script.js"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3840312371391662" crossorigin="anonymous"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-8MB6TQHHFH"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-8MB6TQHHFH');
+  </script>
 </head>
 <body>
 
@@ -100,16 +100,6 @@
 
   <!-- 🎬 JavaScript for Slideshow -->
   <script>
-    // ハンバーガーメニューのトグル
-    document.addEventListener('DOMContentLoaded', () => {
-      const toggleBtn = document.querySelector('.menu-toggle');
-      const navMenu = document.querySelector('.nav-menu');
-
-      toggleBtn.addEventListener('click', () => {
-        navMenu.classList.toggle('show');
-      });
-    });
-
     // スライドショーの設定
     const slides = document.querySelectorAll('.slide');
     let current = 0;

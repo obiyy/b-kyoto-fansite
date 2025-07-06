@@ -64,7 +64,7 @@ function drawCard() {
     currentY += 60 + margin;
     // 好きな選手・好きな人
     drawField("好きな選手: " + favoritePlayer, 230, currentY, 508, 60);
-    currentY += 60 + margin + 30;
+    currentY += 60 + margin;
 
     // ハンナリーズ歴（幅調整済）
     drawField("ハンナリーズ歴: " + years + "年", 30, currentY, 340, 50);

@@ -1,9 +1,9 @@
-// ハンバーガーメニューのトグル機能
-document.addEventListener('DOMContentLoaded', () => {
-    const menuToggle = document.querySelector('.menu-toggle');
-    const nav = document.querySelector('.nav');
+    // ハンバーガーメニューのトグル
+    document.addEventListener('DOMContentLoaded', () => {
+      const toggleBtn = document.querySelector('.menu-toggle');
+      const navMenu = document.querySelector('.nav-menu');
 
-    menuToggle.addEventListener('click', () => {
-        nav.classList.toggle('active');
+      toggleBtn.addEventListener('click', () => {
+        navMenu.classList.toggle('show');
+      });
     });
-});
