@@ -161,8 +161,11 @@ function drawQR(text, x, y, label = "") {
     drawQRLabel(label, x, y + 101);
   };
   if (qrImg.complete && qrImg.naturalHeight !== 0) {
-    qrImg.onload();
+    ctx.drawImage(qrImg, x, y, 95, 95);
+    drawQRLabel(label, x, y + 101);
+    // qrImg.onload();
   }
+
 }
 
 function drawQRLabel(label, x, y) {
