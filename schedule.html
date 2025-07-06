@@ -56,23 +56,26 @@
 </script>
 </head>
 <body>
-  <header class="header">
-    <div class="container">
-      <h1 class="logo">スケジュール</h1>
-      <button class="menu-toggle" aria-label="Toggle navigation">☰</button>
-      <nav class="nav">
-        <ul>
-            <li><a href="https://kyoto-fansite.netlify.app/">HOME</a></li>
-            <li><a href="https://kyoto-fansite.netlify.app/schedule.html">スケジュール</a></li>
-            <li><a href="https://kyoto-fansite.netlify.app/youtube.html">動画</a></li>
-            <li><a href="https://kyoto-bcardmaker.netlify.app/" target="_blank">カード作成</a></li>
-            <li><a href="https://kyoto-fansite.netlify.app/game/index.html">ミニゲーム</a></li>
-            <li><a href="https://kyoto-fansite.netlify.app/index.html#music">ミュージック</a></li>  
-        </ul>
-      </nav>
-    </div>
+    <header>
+      <div class="logo"><a href="https://kyoto-fansite.netlify.app/">HANNARYZ FAN SITE</a></div>
+      <!-- ハンバーガーアイコン -->
+      <button class="menu-toggle" aria-label="メニューを開く">
+        ☰
+      </button>
+
+      <!-- ナビゲーション -->
+      <nav class="nav-menu">
+        <a href="https://kyoto-fansite.netlify.app/schedule.html">Schedule</a>
+        <a href="https://kyoto-fansite.netlify.app/youtube.html">Videos</a>
+        <a href="https://kyoto-fansite.netlify.app/#music">プレイリスト</a>
+        <a href="https://kyoto-fansite.netlify.app/card/">自己紹介カード</a>
+        <a href="https://kyoto-fansite.netlify.app/game/">ミニゲーム</a>
+      </nav> 
   </header>
   <main>
+    <section>
+        <h2>Schedule</h2>
+    </section>
     <div><span id="target-date" class="target-date"></span> <span id="count"></span></div>
     <a href="javascript:;" onclick="searchNendo('2023');">2023年</a> | 
     <a href="javascript:;" onclick="searchNendo('2024');">2024年</a> |
@@ -121,10 +124,9 @@
         </tbody>
     </table>
     </main>
-  <footer class="footer">
-    <div class="container">
-      <p>&copy; 2025 京都ハンナリーズ好きが作ったサイト. All Rights Reserved.</p>
-    </div>
+  <footer>
+    <p>&copy; 2025 京都ハンナリーズ好きが作ったサイト</p>
+    <p>問い合わせ先：<a href="https://x.com/obiyy">@obiyy</a></p>
   </footer>
   <script>
     const targetDate = document.getElementById('target-date');
