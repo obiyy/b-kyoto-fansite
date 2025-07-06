@@ -60,13 +60,16 @@ function drawCard() {
     const margin = 35;
 
     // 名前
-    drawField("名前: " + name, 230, currentY, 508, 60);
+    ctx.font = "30px Meiryo";
+    drawMultilineField("名前: ",name, 230, currentY, 508, 60, 20);
     currentY += 60 + margin;
     // 好きな選手・好きな人
-    drawField("好きな選手: " + favoritePlayer, 230, currentY, 508, 60);
+    ctx.font = "24px Meiryo";
+    drawMultilineField("好きな選手: ",favoritePlayer, 230, currentY, 508, 60, 20);
     currentY += 60 + margin;
 
     // ハンナリーズ歴（幅調整済）
+    ctx.font = "30px Meiryo";
     drawField("ハンナリーズ歴: " + years + "年", 30, currentY, 340, 50);
 
     ctx.font = "18px Meiryo";
@@ -87,7 +90,7 @@ function drawCard() {
     currentY += 95 + margin;
 
     // フリースペース
-    drawMultilineField("フリースペース: 。", freeSpace, 30, currentY, 448, 95, 20);
+    drawMultilineField("フリースペース: ", freeSpace, 30, currentY, 448, 95, 20);
     currentY += 95 + margin;
 
     // QRとラベル
