@@ -145,28 +145,48 @@ function drawMultilineField(title, text, x, y, width, height, linelength) {
   }
 }
 
-// QRコード + ラベル
 function drawQR(text, x, y, label = "") {
-  const tempDiv = document.createElement("div");
-  const qr = new QRCode(tempDiv, {
-    text: text,
-    width: 100,
-    height: 100,
-    correctLevel: QRCode.CorrectLevel.H
+  const tempCanvas = document.createElement("canvas");
+  tempCanvas.width = 95;
+  tempCanvas.height = 95;
+
+  QRCode.toCanvas(tempCanvas, text, {
+    width: 95,
+    margin: 1,
+    errorCorrectionLevel: "H"
+  }, function (error) {
+    if (error) {
+      console.error("QR生成エラー:", error);
+      return;
+    }
+
+    // メインCanvasに描画
+    ctx.drawImage(tempCanvas, x, y, 95, 95);
+    drawQRLabel(label, x, y + 101);
   });
-  const qrImg = tempDiv.querySelector("img");
-
-  qrImg.onload = () => {
-    ctx.drawImage(qrImg, x, y, 95, 95);
-    drawQRLabel(label, x, y + 101);
-  };
-  if (qrImg.complete && qrImg.naturalHeight !== 0) {
-    ctx.drawImage(qrImg, x, y, 95, 95);
-    drawQRLabel(label, x, y + 101);
-    // qrImg.onload();
-  }
-
 }
+
+// QRコード + ラベル
+// function drawQR(text, x, y, label = "") {
+  // const tempDiv = document.createElement("div");
+  // const qr = new QRCode(tempDiv, {
+  //   text: text,
+  //   width: 100,
+  //   height: 100,
+  //   correctLevel: QRCode.CorrectLevel.H
+  // });
+  // const qrImg = tempDiv.querySelector("img");
+
+  // qrImg.onload = () => {
+  //   ctx.drawImage(qrImg, x, y, 95, 95);
+  //   drawQRLabel(label, x, y + 101);
+  // };
+  // if (qrImg.complete && qrImg.naturalHeight !== 0) {
+  //   ctx.drawImage(qrImg, x, y, 95, 95);
+  //   drawQRLabel(label, x, y + 101);
+  //   // qrImg.onload();
+  // }
+// }
 
 function drawQRLabel(label, x, y) {
   const fontSize = 14;
