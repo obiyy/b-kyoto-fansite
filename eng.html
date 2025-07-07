@@ -2,62 +2,122 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>YouTube字幕学習</title>
+  <title>YouTube動画で字幕学習</title>
   <style>
-    body { font-family: sans-serif; padding: 20px; }
-    #subtitleBox { margin-top: 30px; }
-    .line { margin-bottom: 20px; }
+    body { font-family: sans-serif; padding: 20px; max-width: 800px; margin: auto; }
+    #player { margin-bottom: 20px; }
+    #subtitleBox { background: #f0f0f0; padding: 15px; border-radius: 8px; min-height: 60px; }
   </style>
 </head>
 <body>
-  <h1>YouTube字幕で英語学習</h1>
-  <input type="text" id="youtubeUrl" placeholder="YouTubeのURLを入力" size="60">
-  <button onclick="fetchSubtitles()">字幕取得</button>
+  <h1>YouTubeで英語字幕学習</h1>
 
-  <div id="subtitleBox"></div>
+  <!-- ✅ YouTube埋め込みプレイヤー -->
+  <div id="player"></div>
+
+  <!-- 表示切替 -->
+  <div>
+    <label><input type="checkbox" id="showEn" checked> 英語</label>
+    <label><input type="checkbox" id="showJa" checked> 日本語訳</label>
+    <label><input type="checkbox" id="showEx" checked> 解説</label>
+  </div>
+
+  <!-- 字幕表示 -->
+  <div id="subtitleBox">字幕読み込み中...</div>
+
+  <!-- ✅ YouTube IFrame API 読み込み -->
+  <script src="https://www.youtube.com/iframe_api"></script>
 
   <script>
+    let player;
     let subtitles = [];
-    let index = 0;
+    let lastIndex = -1;
 
-    async function fetchSubtitles() {
-      const url = document.getElementById('youtubeUrl').value;
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('player', {
+        height: '360',
+        width: '640',
+        videoId: 'UlrQuV52AGw', // ←ここを任意のYouTube動画IDに
+        events: {
+          onReady: initSubtitles
+        }
+      });
+    }
 
-      const res = await fetch('https://movie-transcript.onrender.com/get_subtitles', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url })
+    async function initSubtitles() {
+      const res = await fetch('cj1.srt');  // サーバーに置いたSRTファイル
+      const text = await res.text();
+      subtitles = parseSRT(text);
+      setInterval(updateSubtitle, 300);
+    }
+
+    function parseSRT(srt) {
+      const lines = srt.split('\n');
+      const result = [];
+      let i = 0;
+
+      while (i < lines.length) {
+        if (/^\d+$/.test(lines[i].trim())) {
+          const times = lines[++i].trim();
+          const [startStr, endStr] = times.split('-->').map(s => s.trim());
+          const start = toSeconds(startStr);
+          const end = toSeconds(endStr);
+
+          let text = '';
+          i++;
+          while (i < lines.length && lines[i].trim() !== '') {
+            text += lines[i++].trim() + ' ';
+          }
+          i++; // 空行スキップ
+
+          result.push({
+            start, end,
+            en: text.trim(),
+            ja: '【仮訳】' + text.trim(),
+            explanation: '→ "' + text.trim() + '" の簡単な解説'
+          });
+        } else {
+          i++;
+        }
+      }
+      return result;
+    }
+
+    function toSeconds(str) {
+      const [h, m, s] = str.split(':');
+      const [sec, ms] = s.split(',');
+      return parseInt(h) * 3600 + parseInt(m) * 60 + parseInt(sec) + parseInt(ms) / 1000;
+    }
+
+    function updateSubtitle() {
+      if (!player || !player.getCurrentTime) return;
+      const time = player.getCurrentTime();
+
+      const current = subtitles.find((sub, i) => {
+        if (time >= sub.start && time <= sub.end) {
+          if (i !== lastIndex) {
+            lastIndex = i;
+            return true;
+          }
+        }
+        return false;
       });
 
-      const data = await res.json();
-      if (data.error) {
-        alert("エラー：" + data.error);
-        return;
-      }
+      if (current) {
+        const showEn = document.getElementById('showEn').checked;
+        const showJa = document.getElementById('showJa').checked;
+        const showEx = document.getElementById('showEx').checked;
 
-      subtitles = data;
-      index = 0;
-      showNext();
-    }
-
-    function showNext() {
-      const box = document.getElementById('subtitleBox');
-      box.innerHTML = ''; // clear
-
-      if (index < subtitles.length) {
-        const line = subtitles[index];
-        box.innerHTML = `
-          <div class="line">
-            <strong>英語:</strong> ${line.en}<br>
-            <strong>日本語:</strong> ${line.ja}<br><br>
-            <button onclick="showNext()">次へ</button>
-          </div>
+        document.getElementById('subtitleBox').innerHTML = `
+          ${showEn ? `<strong>英語:</strong> ${current.en}<br>` : ''}
+          ${showJa ? `<strong>日本語:</strong> ${current.ja}<br>` : ''}
+          ${showEx ? `<strong>解説:</strong> ${current.explanation}<br>` : ''}
         `;
-        index++;
-      } else {
-        box.innerHTML = '<p>学習完了！</p>';
       }
     }
+
+    // チェックボックスで再描画
+    document.addEventListener('change', updateSubtitle);
   </script>
 </body>
 </html>
