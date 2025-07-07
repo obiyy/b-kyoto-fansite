@@ -2,16 +2,57 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>YouTube動画で字幕学習</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>英語学習</title>
+  <meta content="京都ハンナリーズ好きが作ったサイト" name="title">
+  <meta content="京都ハンナリーズ好きが作ったファンサイト" name="description">
+  <meta content="京都ハンナリーズ,自己紹介カード,自己紹介カードメーカー" name="keywords">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:site" content="@obiyy">
+  <meta property="og:title" content="京都ハンナリーズ好きが作ったサイト">
+  <meta property="og:type" content="blog">
+  <meta property="og:url" content="https://kyoto-fansite.netlify.app/">
+  <meta property="og:image" content="https://kyoto-fansite.netlify.app/card/card3.jpg">
+  <meta property="og:description" content="京都ハンナリーズ好きが作ったサイト">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3840312371391662"
+     crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../styles.css">
+
   <style>
-    body { font-family: sans-serif; padding: 20px; max-width: 800px; margin: auto; }
     #player { margin-bottom: 20px; }
     #subtitleBox { background: #f0f0f0; padding: 15px; border-radius: 8px; min-height: 60px; }
   </style>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8MB6TQHHFH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8MB6TQHHFH');
+</script>
 </head>
 <body>
-  <h1>YouTubeで英語字幕学習</h1>
+    <header>
+      <div class="logo"><a href="https://kyoto-fansite.netlify.app/">HANNARYZ FAN SITE</a></div>
+      <!-- ハンバーガーアイコン -->
+      <button class="menu-toggle" aria-label="メニューを開く">
+        ☰
+      </button>
 
+      <!-- ナビゲーション -->
+      <nav class="nav-menu">
+        <a href="https://kyoto-fansite.netlify.app/schedule.html">Schedule</a>
+        <a href="https://kyoto-fansite.netlify.app/youtube.html">Videos</a>
+        <a href="https://kyoto-fansite.netlify.app/#music">プレイリスト</a>
+        <a href="https://kyoto-fansite.netlify.app/card/">自己紹介カード</a>
+        <a href="https://kyoto-fansite.netlify.app/game/">ミニゲーム</a>
+      </nav> 
+  </header>
+  <section id="videos">
+    <h2>動画で英語勉強</h2>
   <!-- ✅ YouTube埋め込みプレイヤー -->
   <div id="player"></div>
 
@@ -24,7 +65,7 @@
 
   <!-- 字幕表示 -->
   <div id="subtitleBox">字幕読み込み中...</div>
-
+    </section>
   <!-- ✅ YouTube IFrame API 読み込み -->
   <script src="https://www.youtube.com/iframe_api"></script>
 
